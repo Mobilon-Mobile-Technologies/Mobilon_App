@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 
-//QR Page Screen
+//
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,7 +52,7 @@ class _EmptyPageState extends State<EmptyPage> {
             break;
           case 1: 
             Navigator.popUntil(context,ModalRoute.withName('/'));
-            Navigator.pushNamed(context, '/qr');
+            Navigator.pushNamed(context, '/Dashboard/qr');
             break;
           case 2:
             Navigator.popUntil(context,ModalRoute.withName('/'));
