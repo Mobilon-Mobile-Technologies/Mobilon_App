@@ -30,8 +30,9 @@ class RSVPApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AdminPage',
-      initialRoute: '/Dashboard',
+      initialRoute: '/login',
       routes: {
+        '/login': (context) => const LoginPage(),
         '/Dashboard': (context) => DashboardPage(),
         '/': (context) => EventsPage(),
         '/admin': (context) => const AdminPage(title: "Admin"),
@@ -44,7 +45,6 @@ class RSVPApp extends StatelessWidget {
         brightness: Brightness.dark,
         useMaterial3: true,
       ),
-      home: LoginPage(),
     );
   }
 }
