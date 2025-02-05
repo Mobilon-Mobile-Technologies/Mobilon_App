@@ -43,7 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
           break;
         case 2:
 
-          Navigator.pushNamed(context,'/admin');
+          Navigator.pushNamed(context,'/profile');
           break;
 
       }

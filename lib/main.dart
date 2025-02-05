@@ -1,6 +1,7 @@
 import 'package:admin_page/dashboard.dart';
 import 'package:admin_page/leaderboard_page.dart';
 import 'package:admin_page/mainscreen.dart';
+import 'package:admin_page/profile_page.dart';
 import 'package:admin_page/qr_page.dart';
 import 'admin_page.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class RSVPApp extends StatelessWidget {
         '/admin' : (context) => const AdminPage(title: "Admin"),
         '/Dashboard/qr' : (context) => const QRPage(title: "QR Page"),
         '/leaderboard' : (context) => const LeaderboardPage(title: "Leaderboards"),
+        '/profile' : (context) => const ProfilePage(),
         //Pages...
       },
       theme: ThemeData(

@@ -44,7 +44,7 @@ class _EventsPageState extends State<EventsPage> {
           Navigator.pushNamed(context, '/Dashboard');
           break;
         case 2:
-          Navigator.pushNamed(context,'/admin');
+          Navigator.pushNamed(context,'/profile');
           break;
 
       }

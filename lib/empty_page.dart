@@ -56,7 +56,7 @@ class _EmptyPageState extends State<EmptyPage> {
             break;
           case 2:
             Navigator.popUntil(context,ModalRoute.withName('/'));
-            Navigator.pushNamed(context,'/admin');
+            Navigator.pushNamed(context,'/profile');
             break;
 
         }

@@ -3,6 +3,8 @@
 
 //Admin Page Screen
 
+import 'package:admin_page/create_event.dart';
+import 'package:admin_page/edit_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'border_button.dart';
@@ -123,8 +125,27 @@ class _AdminPageState extends State<AdminPage> {
                           Row(
                             children: [
                               //TODO: Edit and Create Event Screens
-                              BorderButton(onTap: () => print("Edit Event"), height: screenHeight/25,text: "Edit",),
-                              BorderButton(onTap: () => print("Create Event"), height: screenHeight/25,text: "Create",)
+                              BorderButton(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => EditEventScreen()),
+                                  );
+                                },
+                                height: screenHeight / 25,
+                                text: "Edit",
+                              ),
+                              BorderButton(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CreateEventScreen()),
+                                  );
+                                },
+                                height: screenHeight / 25,
+                                text: "Create",
+                              ),
+                              
                             ],
                           )
                         ],
