@@ -1,4 +1,5 @@
 // ignore_for_file: depend_on_referenced_packages
+import 'package:admin_page/constants/constants.dart';
 import 'package:admin_page/dashboard.dart';
 import 'package:admin_page/leaderboard_page.dart';
 import 'package:admin_page/login.dart';
@@ -6,21 +7,16 @@ import 'package:admin_page/mainscreen.dart';
 import 'package:admin_page/profile_page.dart';
 import 'package:admin_page/qr_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Load environment variables from .env file
-  await dotenv.load(fileName: ".env");
-
   // Initialize Supabase with the environment variables
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL'] ?? '',
-    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+    url: SUPABASE_URL,
+    anonKey: SUPABASE_ANON_KEY,
   );
 
   runApp(const RSVPApp());

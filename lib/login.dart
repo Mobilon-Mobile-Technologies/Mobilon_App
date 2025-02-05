@@ -23,14 +23,14 @@ class LoginPage extends StatelessWidget {
   Future<void> _loginWithMicrosoft(BuildContext context) async {
     try {
       final response = await Supabase.instance.client.auth.signInWithOAuth(
-        Provider.azure,
+        OAuthProvider.azure,
         redirectTo: 'com.example.mobilon_app://login-callback/',
       );
 
-      if (response.error != null) {
+      if (!response) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to login with Microsoft: ${response.error!.message}')),
+            SnackBar(content: Text('Failed to login with Microsoft: ${response.toString()}')),
           );
         }
         return;
