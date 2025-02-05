@@ -46,15 +46,12 @@ class _AdminPageState extends State<AdminPage> {
       setState(() {
         switch (index){
           case 0:
-            Navigator.popUntil(context,ModalRoute.withName('/'));
-            Navigator.pushNamed(context,'/leaderboard');
+            Navigator.pushNamed(context,'/');
             break;
           case 1: 
-            Navigator.popUntil(context,ModalRoute.withName('/'));
-            Navigator.pushNamed(context, '/Dashboard/qr');
+            Navigator.pushNamed(context, '/Dashboard');
             break;
           case 2:
-            Navigator.popUntil(context,ModalRoute.withName('/'));
             Navigator.pushNamed(context,'/admin');
             break;
 

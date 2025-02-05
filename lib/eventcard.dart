@@ -1,85 +1,65 @@
-import 'dart:ui';
-
+import 'package:admin_page/border_button.dart';
+import 'package:admin_page/gradient_box.dart';
+import 'package:admin_page/gradient_line.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key, required this.eventName});
+  const EventCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle, required this.reserve});
   final String eventName;
+
+  final TextStyle bodyStyle;
+  final TextStyle subStyle;
+  final VoidCallback reserve;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(bottom: 20),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 42, 42, 42)
-                            .withOpacity(0.5)),
-                  ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GradientBox(
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                "assets/FlutterImg.png",
+                fit: BoxFit.cover,
+                height: 144, // ✅ Fixed height
+              ),
+            ),
+            GradLine(),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          "assets/FlutterImg.png",
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ),
-                      SizedBox(height: 12),
                       Text(
                         eventName,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 4,
+                        style: bodyStyle
                       ),
                       Text(
-                        "12 Augh",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                        "12 Aug",
+                        style: subStyle,
+                        textAlign: TextAlign.left,
                       ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 33, 33, 33)
-                                        .withOpacity(0.2),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              onPressed: () {},
-                              child: Text(("Details"))),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 33, 33, 33)
-                                      .withOpacity(0.2),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                            ),
-                            onPressed: () {},
-                            child: Text(("Reserve")),
-                          ),
-                        ],
-                      )
                     ],
                   ),
-                ))));
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    BorderButton(height: 28,text: "Details", onTap: () => print("a")),
+                    BorderButton(height: 28,text: "Get QR", onTap: reserve),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

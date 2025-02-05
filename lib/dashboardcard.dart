@@ -1,92 +1,62 @@
-import 'dart:ui';
+import 'package:admin_page/border_button.dart';
+import 'package:admin_page/gradient_box.dart';
+import 'package:admin_page/gradient_line.dart';
 import 'package:flutter/material.dart';
 
 class DashboardCard extends StatelessWidget {
-  const DashboardCard({super.key, required this.eventName});
+  const DashboardCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle});
   final String eventName;
+
+  final TextStyle bodyStyle;
+  final TextStyle subStyle;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: 250, // ✅ Fixed width for layout stability
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: IntrinsicHeight(
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color:
-                        const Color.fromARGB(255, 42, 42, 42).withOpacity(0.5),
-                  ),
-                ),
-                child: IntrinsicHeight(
+      child: GradientBox(
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                "assets/FlutterImg.png",
+                fit: BoxFit.cover,
+                height: 144, // ✅ Fixed height
+              ),
+            ),
+            GradLine(),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min, // ✅ Prevent overflow
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          "assets/FlutterImg.png",
-                          fit: BoxFit.cover,
-                          width: 250,
-                          height: 120, // ✅ Fixed height
-                        ),
-                      ),
-                      const SizedBox(height: 12),
                       Text(
                         eventName,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                        style: bodyStyle
                       ),
-                      const SizedBox(height: 4),
-                      const Text(
+                      Text(
                         "12 Aug",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black.withOpacity(0.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: const Text("Details"),
-                          ),
-                          const SizedBox(width: 8),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black.withOpacity(0.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: const Text("Reserve"),
-                          ),
-                        ],
+                        style: subStyle,
+                        textAlign: TextAlign.left,
                       ),
                     ],
                   ),
                 ),
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    BorderButton(height: 28,text: "Details", onTap: () => print("a")),
+                    BorderButton(height: 28,text: "Reserve", onTap: () => print("b")),
+                  ],
+                ),
+              ],
             ),
-          ),
+          ],
         ),
       ),
     );

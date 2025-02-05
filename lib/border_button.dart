@@ -17,9 +17,7 @@ class BorderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    TextStyle bodyStyle = TextStyle(color: Colors.white, fontSize: (screenWidth+screenHeight)/80,fontFamily: "Inter");
+    TextStyle bodyStyle = TextStyle(color: Colors.white, fontSize: height/2,fontFamily: "Inter");
     return Padding(
       padding: const EdgeInsets.all(1),
       child: SizedBox(
