@@ -85,83 +85,53 @@ class _DashboardPageState extends State<DashboardPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    "My Dashboard",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // My Events Section
-                  const Text(
-                    "My Events",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 250,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: eventNames.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          width: 250,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: EventCard(eventName: eventNames[index]),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // My Community Section
-                  const Text(
-                    "My Community",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-            
-                  SizedBox(
-                    height: 250,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: eventNames.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          width: 250,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: DashboardCard(eventName: eventNames[index]),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+        child: Padding(
+          padding: EdgeInsets.all(meanSize/40),
+          child: ListView(
+            scrollDirection: Axis.vertical,  
+              children: [
+                // My Events Section
+                Text(
+                  "My Events",
+                  style: bodyStyle,
+                ),
+                const SizedBox(height: 12),
+          
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  
+                  child: Row(children: [
+                    for (String i in eventNames)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0,),
+                        child: IntrinsicWidth(child: EventCard(eventName: i,bodyStyle: bodyStyle.copyWith(fontSize: meanSize/44),subStyle: subStyle, reserve: () => Navigator.pushNamed(context, '/Dashboard/qr')
+                        )),
+                      ),
+                  ],)
+                ),
+                    
+                const SizedBox(height: 24),
+                    
+                // My Community Section
+                Text(
+                  "My Community",
+                  style: bodyStyle
+                ),
+                const SizedBox(height: 12),
+                    
+                // ✅ Fix overflow by ensuring proper height
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  
+                  child: Row(children: [
+                    for (String i in eventNames)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0,),
+                        child: IntrinsicWidth(child: DashboardCard(eventName: i,bodyStyle: bodyStyle.copyWith(fontSize: meanSize/44),subStyle: subStyle,)),
+                      ),
+                  ],)
+                )
+              ],
             ),
         ),
         ),
