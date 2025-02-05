@@ -68,6 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
           screenHeight: screenHeight, title: "Profile", titleStyle: titleStyle),
       extendBodyBehindAppBar: true,
       extendBody: true,
+      
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
