@@ -1,8 +1,8 @@
+import 'package:admin_page/bottom_app_bar.dart';
 import 'package:admin_page/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_page/dashboardcard.dart';
 import 'package:admin_page/eventcard.dart';
-import 'glowing_icon_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -28,33 +28,7 @@ class _DashboardPageState extends State<DashboardPage> {
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height; 
 
-    List<bool> highlight = [false,true,false];
     
-    void iconTap(int index){
-    setState(() {
-      switch (index){
-        case 0:
-
-          Navigator.pushNamed(context,'/');
-          break;
-        case 1: 
-
-          Navigator.pushNamed(context, '/Dashboard');
-          break;
-        case 2:
-
-          Navigator.pushNamed(context,'/admin');
-          break;
-
-      }
-
-      //TODO
-      //index 0 - Home
-      //index 1 - Events
-      //index 2 - Profile
-    });
-    
-  }
 
 
     //For sigular size elements
@@ -67,17 +41,7 @@ class _DashboardPageState extends State<DashboardPage> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: LargeAppBar(screenHeight: screenHeight, title: "Dashboard", titleStyle: titleStyle),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.none,
-        color: Color(0xff1D1F24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-          GlowingIconButton(onTap: () => iconTap(0), iconOff: iconGet('HomeOff'),iconOn: iconGet('HomeOn'), isOn: highlight[0], size: meanSize/13),
-          GlowingIconButton(onTap: () => iconTap(1), iconOff: iconGet('LibraryOff'),iconOn: iconGet('LibraryOn'), isOn: highlight[1], size: meanSize/13),
-          GlowingIconButton(onTap: () => iconTap(2), iconOff: iconGet('UserOff'),iconOn: iconGet('UserOn'), isOn: highlight[2], size: meanSize/13),
-        ],)
-        ),
+      bottomNavigationBar: BottomBar(buttonIndex: 2),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -104,7 +68,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     for (String i in eventNames)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6.0,),
-                        child: IntrinsicWidth(child: EventCard(eventName: i,bodyStyle: bodyStyle.copyWith(fontSize: meanSize/44),subStyle: subStyle, reserve: () => Navigator.pushNamed(context, '/Dashboard/qr')
+                        child: IntrinsicWidth(child: EventCard(eventName: i,bodyStyle: bodyStyle.copyWith(fontSize: meanSize/44),subStyle: subStyle, reserve: () => Navigator.pushNamed(context, '/dashboard/qr')
                         )),
                       ),
                   ],)

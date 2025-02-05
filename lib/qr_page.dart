@@ -29,8 +29,6 @@ class _QRPageState extends State<QRPage> {
     );
   }
 
-  List<bool> highlight = [false,true,false];
-
   @override
   Widget build(BuildContext context) {
 

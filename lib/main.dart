@@ -19,12 +19,12 @@ class RSVPApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AdminPage',
-      initialRoute: '/Dashboard',
+      initialRoute: '/',
       routes: {
-        '/Dashboard' : (context) => DashboardPage(),
+        '/dashboard' : (context) => DashboardPage(),
         '/' : (context) => EventsPage(),
         '/admin' : (context) => const AdminPage(title: "Admin"),
-        '/Dashboard/qr' : (context) => const QRPage(title: "QR Page"),
+        '/dashboard/qr' : (context) => const QRPage(title: "QR Page"),
         '/leaderboard' : (context) => const LeaderboardPage(title: "Leaderboards"),
         //Pages...
       },

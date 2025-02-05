@@ -4,11 +4,11 @@
 //QR Page Screen
 
 import 'package:admin_page/border_button.dart';
+import 'package:admin_page/bottom_app_bar.dart';
 import 'package:admin_page/gradient_box.dart';
 import 'package:admin_page/gradient_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'glowing_icon_button.dart';
 import 'large_title_app_bar.dart';
 
 class LeaderboardPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     );
   }
 
-  List<bool> highlight = [true,false,false];
+  List<bool> highlight = [false,true,false,false];
   List<String> teamNames = ["Team A", "Team B", "Team C"];
   
 
@@ -47,47 +47,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     TextStyle titleStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: meanSize/15);
     
 
-    void iconTap(int index){
-      //make the specific index glow upon clicking the button
-      setState(() {
-
-        switch (index){
-          case 0:
-            Navigator.pushNamed(context,'/');
-            break;
-          case 1: 
-            Navigator.pushNamed(context, '/Dashboard');
-            break;
-          case 2:
-            Navigator.pushNamed(context,'/admin');
-            break;
-
-        }
-
-        //TODO
-        //index 0 - Home
-        //index 1 - Events
-        //index 2 - Profile
-      });
-      
-    }
 
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
       appBar: LargeAppBar(screenHeight: screenHeight, title: widget.title, titleStyle: titleStyle),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.none,
-        color: Color(0xff1D1F24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-          GlowingIconButton(onTap: () => iconTap(0), iconOff: iconGet('HomeOff'),iconOn: iconGet('HomeOn'), isOn: highlight[0], size: meanSize/13),
-          GlowingIconButton(onTap: () => iconTap(1), iconOff: iconGet('LibraryOff'),iconOn: iconGet('LibraryOn'), isOn: highlight[1], size: meanSize/13),
-          GlowingIconButton(onTap: () => iconTap(2), iconOff: iconGet('UserOff'),iconOn: iconGet('UserOn'), isOn: highlight[2], size: meanSize/13),
-        ],)
-        ),
+      bottomNavigationBar: BottomBar(buttonIndex: 1),
       body: Container(
         decoration: BoxDecoration(
           //Background image

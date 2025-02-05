@@ -3,12 +3,12 @@
 
 //Admin Page Screen
 
+import 'package:admin_page/bottom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'border_button.dart';
 import 'gradient_line.dart';
 import 'gradient_box.dart';
-import 'glowing_icon_button.dart';
 import 'large_title_app_bar.dart';
 
 class AdminPage extends StatefulWidget {
@@ -35,35 +35,12 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> highlight = [false,false,true];
 
     //Screen dimensions
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height; 
     
 
-    void iconTap(int index){
-      setState(() {
-        switch (index){
-          case 0:
-            Navigator.pushNamed(context,'/');
-            break;
-          case 1: 
-            Navigator.pushNamed(context, '/Dashboard');
-            break;
-          case 2:
-            Navigator.pushNamed(context,'/admin');
-            break;
-
-        }
-
-        //TODO
-        //index 0 - Home
-        //index 1 - Events
-        //index 2 - Profile
-      });
-      
-    }
 
     //For sigular size elements
     double meanSize = (screenWidth+screenHeight)/2;
@@ -75,17 +52,7 @@ class _AdminPageState extends State<AdminPage> {
       extendBody: true,
       backgroundColor: Colors.black,
       appBar: LargeAppBar(screenHeight: screenHeight, title: widget.title, titleStyle: titleStyle),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.none,
-        color: Color(0xff1D1F24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-          GlowingIconButton(onTap: () => iconTap(0), iconOff: iconGet('HomeOff'),iconOn: iconGet('HomeOn'), isOn: highlight[0], size: meanSize/13),
-          GlowingIconButton(onTap: () => iconTap(1), iconOff: iconGet('LibraryOff'),iconOn: iconGet('LibraryOn'), isOn: highlight[1], size: meanSize/13),
-          GlowingIconButton(onTap: () => iconTap(2), iconOff: iconGet('UserOff'),iconOn: iconGet('UserOn'), isOn: highlight[2], size: meanSize/13),
-        ],)
-        ),
+      bottomNavigationBar: BottomBar(buttonIndex: 3,),
       body: Container(
         decoration: BoxDecoration(
           //Background image
@@ -221,4 +188,6 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 }
+
+
 

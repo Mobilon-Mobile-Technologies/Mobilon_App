@@ -58,11 +58,14 @@ flutter:
     - assets/qr.png
     - assets/Icons/HomeOff.svg
     - assets/Icons/HomeOn.svg
+    - assets/Icons/LeaderboardOff.svg
+    - assets/Icons/LeaderboardOn.svg
     - assets/Icons/LibraryOff.svg
     - assets/Icons/LibraryOn.svg
     - assets/Icons/UserOff.svg
     - assets/Icons/UserOn.svg
     - assets/FlutterImg.png
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
