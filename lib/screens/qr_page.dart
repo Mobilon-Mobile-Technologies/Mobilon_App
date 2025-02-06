@@ -3,11 +3,11 @@
 
 //QR Page Screen
 
-import 'package:admin_page/app_bar_with_buttons.dart';
+import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'gradient_line.dart';
-import 'gradient_box.dart';
+import '../widgets/gradient_line.dart';
+import '../widgets/gradient_box.dart';
 
 class QRPage extends StatefulWidget {
   const QRPage({super.key, required this.title});
@@ -51,7 +51,7 @@ class _QRPageState extends State<QRPage> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       backgroundColor: Colors.black,
-      appBar: ButtonedAppBar(onTap: () => Navigator.pop(context) ,screenHeight: screenHeight, title: widget.title, titleStyle: titleStyle),
+      appBar: LargeAppBar(screenHeight: screenHeight, title: widget.title, titleStyle: titleStyle),
       body: Container(
         decoration: BoxDecoration(
           //Background image

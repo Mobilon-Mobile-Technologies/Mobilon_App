@@ -1,15 +1,15 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:admin_page/constants/constants.dart';
-import 'package:admin_page/dashboard.dart';
-import 'package:admin_page/leaderboard_page.dart';
-import 'package:admin_page/login.dart';
-import 'package:admin_page/mainscreen.dart';
-import 'package:admin_page/profile_page.dart';
-import 'package:admin_page/qr_page.dart';
+import 'package:admin_page/screens/dashboard.dart';
+import 'package:admin_page/screens/leaderboard_page.dart';
+import 'package:admin_page/screens/login.dart';
+import 'package:admin_page/screens/eventsPage.dart';
+import 'package:admin_page/screens/profile_page.dart';
+import 'package:admin_page/screens/qr_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'admin_page.dart';
+import 'screens/admin_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class RSVPApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AdminPage',
-      initialRoute: '/login',
+      initialRoute: Supabase.instance.client.auth.currentSession!=null ? '/' : '/login',
       routes: {
         '/login': (context) => const LoginPage(),
         '/Dashboard': (context) => DashboardPage(),

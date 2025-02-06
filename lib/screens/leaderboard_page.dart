@@ -3,13 +3,13 @@
 
 //QR Page Screen
 
-import 'package:admin_page/border_button.dart';
-import 'package:admin_page/gradient_box.dart';
-import 'package:admin_page/gradient_line.dart';
+import 'package:admin_page/widgets/border_button.dart';
+import 'package:admin_page/widgets/gradient_box.dart';
+import 'package:admin_page/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'glowing_icon_button.dart';
-import 'large_title_app_bar.dart';
+import '../widgets/glowing_icon_button.dart';
+import '../widgets/large_title_app_bar.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({super.key, required this.title});

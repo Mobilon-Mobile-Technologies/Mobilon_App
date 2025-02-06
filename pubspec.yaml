@@ -37,6 +37,7 @@ dependencies:
   flutter_svg: ^2.0.9
   supabase_flutter: ^2.8.3
   flutter_dotenv: ^5.2.1
+  flutter_otp_text_field: ^1.4.0+2
 
 dev_dependencies:
   flutter_test:

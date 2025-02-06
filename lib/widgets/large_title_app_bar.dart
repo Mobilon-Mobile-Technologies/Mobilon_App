@@ -17,7 +17,7 @@ class LargeAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true,
       toolbarHeight: screenHeight/7,
       centerTitle: false,
       backgroundColor: Colors.black.withAlpha(80),

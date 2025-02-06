@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: () => _loginWithMicrosoft(context),
+              onPressed: () => Navigator.pushNamed(context, '/'),
               icon: const Icon(Icons.account_circle),
               label: const Text('Login with Microsoft'),
               style: ElevatedButton.styleFrom(

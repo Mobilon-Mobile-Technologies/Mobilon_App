@@ -1,7 +1,10 @@
-import 'package:admin_page/dashboardcard.dart';
-import 'package:admin_page/large_title_app_bar.dart';
+import 'package:admin_page/constants/constants.dart';
+import 'package:admin_page/models/events.dart';
+import 'package:admin_page/widgets/dashboardcard.dart';
+import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'glowing_icon_button.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../widgets/glowing_icon_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EventsPage extends StatefulWidget {
@@ -12,8 +15,9 @@ class EventsPage extends StatefulWidget {
 }
 
 class _EventsPageState extends State<EventsPage> {
-
+  final supabase=Supabase.instance.client;
   final List<bool> highlight = [true,false,false];
+  List<Events> events = [];
 
   SvgPicture iconGet(String name){
     return SvgPicture.asset(
@@ -26,10 +30,15 @@ class _EventsPageState extends State<EventsPage> {
     "Parth",
     'abc',
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height; 
     double meanSize = (screenWidth+screenHeight)/2;
@@ -82,16 +91,38 @@ class _EventsPageState extends State<EventsPage> {
           child: ListView(
             scrollDirection: Axis.vertical,
             children: [
-              for (String i in eventNames)
+              for (Events event in events)
               Padding(
                 padding: EdgeInsets.all(6),
-                child: DashboardCard(eventName: i, bodyStyle: bodyStyle, subStyle: subStyle,),
+                child: DashboardCard(eventName:event.name , bodyStyle: bodyStyle, subStyle: subStyle,),
                 )
-                  
             ],
           ),
         ),
       ),
     );
+  }
+
+
+  Future<void> getEvents() async {
+        final list = await supabase
+        .from("events").select("*");
+        setState(() {
+      events = list
+          .map((event) => Events(
+
+                event["event_id"].toString(),
+                event["name"].toString(),
+                event["start_date"],
+                event["start_time"],
+                event["end_date"],
+                event["end_time"],
+                event["location"],
+                event["description"],
+                event['"capacity']
+              ))
+          .toList();
+    });
+     
   }
 }

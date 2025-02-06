@@ -3,15 +3,15 @@
 
 //Admin Page Screen
 
-import 'package:admin_page/create_event.dart';
-import 'package:admin_page/edit_event.dart';
+import 'package:admin_page/screens/create_event.dart';
+import 'package:admin_page/screens/edit_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'border_button.dart';
-import 'gradient_line.dart';
-import 'gradient_box.dart';
-import 'glowing_icon_button.dart';
-import 'large_title_app_bar.dart';
+import '../widgets/border_button.dart';
+import '../widgets/gradient_line.dart';
+import '../widgets/gradient_box.dart';
+import '../widgets/glowing_icon_button.dart';
+import '../widgets/large_title_app_bar.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key, required this.title});

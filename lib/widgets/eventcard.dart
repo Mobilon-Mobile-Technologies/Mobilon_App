@@ -1,14 +1,15 @@
-import 'package:admin_page/border_button.dart';
-import 'package:admin_page/gradient_box.dart';
-import 'package:admin_page/gradient_line.dart';
+import 'package:admin_page/widgets/border_button.dart';
+import 'package:admin_page/widgets/gradient_box.dart';
+import 'package:admin_page/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 
-class DashboardCard extends StatelessWidget {
-  const DashboardCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle});
+class EventCard extends StatelessWidget {
+  const EventCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle, required this.reserve});
   final String eventName;
 
   final TextStyle bodyStyle;
   final TextStyle subStyle;
+  final VoidCallback reserve;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class DashboardCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     BorderButton(height: 28,text: "Details", onTap: () => print("a")),
-                    BorderButton(height: 28,text: "Reserve", onTap: () => print("b")),
+                    BorderButton(height: 28,text: "Get QR", onTap: reserve),
                   ],
                 ),
               ],

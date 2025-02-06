@@ -1,7 +1,7 @@
-import 'package:admin_page/admin_page.dart';
-import 'package:admin_page/dashboardcard.dart';
-import 'package:admin_page/glowing_icon_button.dart';
-import 'package:admin_page/large_title_app_bar.dart';
+import 'package:admin_page/screens/admin_page.dart';
+import 'package:admin_page/widgets/dashboardcard.dart';
+import 'package:admin_page/widgets/glowing_icon_button.dart';
+import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
