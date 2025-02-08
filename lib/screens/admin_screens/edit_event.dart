@@ -1,7 +1,5 @@
-import 'package:admin_page/screens/admin_page.dart';
-import 'package:admin_page/screens/edit_event.dart';
+import 'package:admin_page/screens/admin_screens/admin_dash.dart';
 import 'package:flutter/material.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const CreateEventScreen(),
+      home: const EditEventScreen(),
     );
   }
 }
 
-class CreateEventScreen extends StatelessWidget {
-  const CreateEventScreen({super.key});
+class EditEventScreen extends StatelessWidget {
+  const EditEventScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +28,15 @@ class CreateEventScreen extends StatelessWidget {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AdminPage(title: 'Admin',)),
-                );
-              },
+              onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const AdminDash(userType: "Admin")),),
               icon: const Icon(Icons.arrow_back, color: Colors.blue),
             );
           },
         ),
         backgroundColor: const Color.fromARGB(23, 0, 0, 0),
-        
         elevation: 0,
         title: const Text(
-          "Create Event",
+          "Edit Event",
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -88,7 +80,7 @@ class CreateEventScreen extends StatelessWidget {
                   
                   
                   const Text(
-                    "Create Event",
+                    "Edit Event",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -121,6 +113,23 @@ class CreateEventScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 15,),
+                  Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      child: ElevatedButton(onPressed: (){}, 
+                      style:ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(249, 0, 0, 1),
+                        padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Colors.white,width: 2)
+                        )
+                      ) ,
+                      child:
+                      Text("Edit the Event",style: TextStyle(color: Colors.white),),),
+                    ),
+                  )
                 ],
               ),
             ),

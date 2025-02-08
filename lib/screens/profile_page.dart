@@ -1,29 +1,14 @@
 import 'package:admin_page/screens/admin_page.dart';
+import 'package:admin_page/screens/admin_screens/admin_dash.dart';
 import 'package:admin_page/widgets/dashboardcard.dart';
 import 'package:admin_page/widgets/glowing_icon_button.dart';
 import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const ProfilePage(),
-    );
-  }
-}
-
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String userType;
+  const ProfilePage({super.key, required this.userType});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -41,10 +26,20 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       switch (index) {
         case 0:
-          Navigator.pushNamed(context, '/');
+          if (widget.userType == "Admin") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => AdminDash(userType: "Admin")),
+            );
+          } else {
+            Navigator.pushNamed(context, '/');
+          }
+
           break;
         case 1:
           Navigator.pushNamed(context, '/Dashboard');
+
           break;
         case 2:
           Navigator.pushNamed(context, '/profile');
@@ -68,7 +63,6 @@ class _ProfilePageState extends State<ProfilePage> {
           screenHeight: screenHeight, title: "Profile", titleStyle: titleStyle),
       extendBodyBehindAppBar: true,
       extendBody: true,
-      
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -116,7 +110,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     buildDivider(),
                     buildProfileField('DOB', '01/01/2001', true),
                     buildDivider(),
-                    buildProfileField('Admin panel', '', false),
                   ],
                 ),
               ),
@@ -127,8 +120,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextButton.styleFrom(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
-                  backgroundColor:
-                      Colors.blue.withOpacity(0.5), // Gradient background
+                  backgroundColor: const Color.fromARGB(255, 247, 38, 23)
+                      .withOpacity(0.5), // Gradient background
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -139,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 100),
             ],
           ),
         ),
@@ -204,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AdminPage(title: "Admin")));
+                        builder: (context) => AdminDash(userType: "Admin")));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white.withOpacity(0.2),

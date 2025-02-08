@@ -1,25 +1,20 @@
-import 'package:admin_page/constants/constants.dart';
-import 'package:admin_page/models/events.dart';
-import 'package:admin_page/widgets/dashboardcard.dart';
+import 'package:admin_page/widgets/admin/admindashcard.dart';
 import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../widgets/glowing_icon_button.dart';
+import '../../widgets/glowing_icon_button.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
-class EventsPage extends StatefulWidget {
+class AdminDash extends StatefulWidget {
   final String userType;
-
-  const EventsPage({super.key, required this.userType});
+  const AdminDash({super.key, required this.userType});
 
   @override
-  State<EventsPage> createState() => _EventsPageState();
+  State<AdminDash> createState() => _AdminDashState();
 }
 
-class _EventsPageState extends State<EventsPage> {
-  final supabase = Supabase.instance.client;
+class _AdminDashState extends State<AdminDash> {
   final List<bool> highlight = [true, false, false];
-  List<Events> events = [];
 
   SvgPicture iconGet(String name) {
     return SvgPicture.asset('assets/Icons/$name.svg');
@@ -32,12 +27,6 @@ class _EventsPageState extends State<EventsPage> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    getEvents();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
@@ -47,17 +36,16 @@ class _EventsPageState extends State<EventsPage> {
       setState(() {
         switch (index) {
           case 0:
-          if (widget.userType == "Admin") {
+            if (widget.userType == "Admin") {
               Navigator.pushNamed(context, '/admin_dash');
             } else {
               Navigator.pushNamed(context, '/');
             }
-            
+
             break;
           case 1:
-            
             Navigator.pushNamed(context, '/Dashboard');
-            
+
             break;
           case 2:
             Navigator.pushNamed(context, '/profile');
@@ -82,6 +70,23 @@ class _EventsPageState extends State<EventsPage> {
           screenHeight: screenHeight, title: "Events", titleStyle: titleStyle),
       extendBodyBehindAppBar: true,
       extendBody: true,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.pushNamed(context, '/create_event');
+          },
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+            side: BorderSide(color: Colors.white, width: 2),
+          ),
+          label: Text(
+            "Create an Event",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
           clipBehavior: Clip.none,
           color: Color(0xff1D1F24),
@@ -119,11 +124,11 @@ class _EventsPageState extends State<EventsPage> {
           child: ListView(
             scrollDirection: Axis.vertical,
             children: [
-              for (Events event in events)
+              for (String i in eventNames)
                 Padding(
                   padding: EdgeInsets.all(6),
-                  child: DashboardCard(
-                    eventName: event.name,
+                  child: Admindashcard(
+                    eventName: i,
                     bodyStyle: bodyStyle,
                     subStyle: subStyle,
                   ),
@@ -134,23 +139,4 @@ class _EventsPageState extends State<EventsPage> {
       ),
     );
   }
-
-  Future<void> getEvents() async {
-  final list = await supabase.from("events").select("*");
-  setState(() {
-    events = list
-      .map((event) => Events(
-        event["event_id"].toString(),
-        event["name"].toString(),
-        event["start_date"],
-        event["start_time"],
-        event["end_date"],
-        event["end_time"],
-        event["location"],
-        event["description"],
-        event["capacity"].toString(), // Convert capacity to String
-      )).toList();
-  });
-}
-
 }
