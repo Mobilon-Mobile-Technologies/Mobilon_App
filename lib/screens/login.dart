@@ -17,7 +17,9 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final response = await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.azure,
-        redirectTo: 'com.example.mobilon_app://login-callback/',
+        authScreenLaunchMode: LaunchMode.inAppWebView,
+        redirectTo: "https://bdnzbelpbjqtohgkbmkc.supabase.co/auth/v1/callback"
+        
       );
 
       if (!response) {
@@ -33,16 +35,16 @@ class _LoginPageState extends State<LoginPage> {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Successfully logged in with Microsoft')),
+          const SnackBar(
+              content: Text('Successfully logged in with Microsoft')),
         );
 
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => DashboardPage(userType:userType),
+            builder: (_) => DashboardPage(userType: userType),
           ),
         );
       }
-
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -91,12 +93,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => DashboardPage(userType: userType),
-              ),
-            ),
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (_) => DashboardPage(userType: userType),
+                //   ),
+                // );
+                _loginWithMicrosoft(context);
+              },
               icon: const Icon(Icons.account_circle),
               label: const Text('Login with Microsoft'),
               style: ElevatedButton.styleFrom(

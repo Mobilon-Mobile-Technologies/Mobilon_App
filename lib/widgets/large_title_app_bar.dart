@@ -18,21 +18,18 @@ class LargeAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: true,
-      toolbarHeight: screenHeight/7,
+      toolbarHeight: screenHeight*0.2,
       centerTitle: false,
       backgroundColor: Colors.black.withAlpha(80),
       title: 
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: BackdropFilter(
-          //Blur behind
-          filter: ImageFilter.blur(sigmaX: 25,sigmaY: 25),
-          child: Text(title,style: titleStyle,),
-        ),
+      BackdropFilter(
+        //Blur behind
+        filter: ImageFilter.blur(sigmaX: 25,sigmaY: 25),
+        child: Text(title,style: titleStyle,),
       ),
     );
   }
   
   @override
-  Size get preferredSize => Size.fromHeight(screenHeight/7);
+  Size get preferredSize => Size.fromHeight(screenHeight*0.12);
 }

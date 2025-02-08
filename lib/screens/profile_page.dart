@@ -1,7 +1,4 @@
-import 'package:admin_page/screens/admin_page.dart';
 import 'package:admin_page/screens/admin_screens/admin_dash.dart';
-import 'package:admin_page/widgets/dashboardcard.dart';
-import 'package:admin_page/widgets/glowing_icon_button.dart';
 import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -137,33 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.none,
-        color: const Color(0xff1D1F24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            GlowingIconButton(
-                onTap: () => iconTap(0),
-                iconOff: iconGet('HomeOff'),
-                iconOn: iconGet('HomeOn'),
-                isOn: highlight[0],
-                size: meanSize / 13),
-            GlowingIconButton(
-                onTap: () => iconTap(1),
-                iconOff: iconGet('LibraryOff'),
-                iconOn: iconGet('LibraryOn'),
-                isOn: highlight[1],
-                size: meanSize / 13),
-            GlowingIconButton(
-                onTap: () => iconTap(2),
-                iconOff: iconGet('UserOff'),
-                iconOn: iconGet('UserOn'),
-                isOn: highlight[2],
-                size: meanSize / 13),
-          ],
-        ),
-      ),
+      
     );
   }
 
@@ -213,29 +184,5 @@ class _ProfilePageState extends State<ProfilePage> {
     return const Divider(color: Colors.grey, thickness: 0.5);
   }
 
-  Widget buildBottomNavBar() {
-    return Container(
-      color: Colors.black,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Icon(Icons.home, color: Colors.grey, size: 30),
-          Icon(Icons.grid_view, color: Colors.grey, size: 30),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  Colors.blue.withOpacity(0.2),
-                  Colors.purple.withOpacity(0.2),
-                ],
-              ),
-            ),
-            child: const Icon(Icons.person, color: Colors.white, size: 30),
-          ),
-        ],
-      ),
-    );
-  }
+  
 }

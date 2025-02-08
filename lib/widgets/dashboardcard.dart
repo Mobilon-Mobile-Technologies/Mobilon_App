@@ -12,8 +12,9 @@ class DashboardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize=MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: GradientBox(
         child: Column(
           children: [
@@ -22,7 +23,7 @@ class DashboardCard extends StatelessWidget {
               child: Image.asset(
                 "assets/FlutterImg.png",
                 fit: BoxFit.cover,
-                height: 144, // ✅ Fixed height
+                height: 144, 
               ),
             ),
             GradLine(),
@@ -48,10 +49,10 @@ class DashboardCard extends StatelessWidget {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BorderButton(height: 28,text: "Details", onTap: () => print("a")),
-                    BorderButton(height: 28,text: "Reserve", onTap: () => print("b")),
+                    BorderButton(height: screenSize.width*0.075,text: "Details", onTap: () => print("a")),
+                    BorderButton(height: screenSize.width*0.075,text: "Reserve", onTap: () => print("b")),
                   ],
                 ),
               ],

@@ -59,6 +59,7 @@ flutter:
   assets:
     - assets/Background.png
     - assets/qr.png
+    - assets/images/img1.png
     - assets/Icons/HomeOff.svg
     - assets/Icons/HomeOn.svg
     - assets/Icons/LibraryOff.svg

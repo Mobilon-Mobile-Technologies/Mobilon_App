@@ -1,7 +1,8 @@
 import 'package:admin_page/constants/constants.dart';
 import 'package:admin_page/screens/admin_screens/admin_dash.dart';
-
+import 'package:admin_page/screens/bottom_navbar.dart';
 import 'package:admin_page/screens/admin_screens/create_event.dart';
+import 'package:admin_page/screens/admin_screens/login_new.dart';
 import 'package:admin_page/screens/dashboard.dart';
 import 'package:admin_page/screens/admin_screens/edit_event.dart';
 import 'package:admin_page/screens/leaderboard_page.dart';
@@ -34,28 +35,16 @@ class RSVPApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AdminPage',
       initialRoute: Supabase.instance.client.auth.currentSession != null ? '/' : '/login',
-      onGenerateRoute: (settings) {
-        if (settings.name == '/') {
-          final args = settings.arguments as Map<String, dynamic>?;
-          final userType = args?['userType'] ?? 'Student';
-          return MaterialPageRoute(
-            builder: (context) => EventsPage(userType: userType),
-          );
-        }
-        return null;
-      },
       routes: {
-        '/login': (context) => const LoginPage(),
-        '/Dashboard': (context) => DashboardPage(userType: (ModalRoute.of(context)?.settings.arguments as String?) ?? "defaultUserType"
-),
-        // '/admin': (context) => const AdminPage(title: "Admin"),
+        '/': (context) => BottomNavigationPage(userType: 'Student'),
+        '/login': (context) => const LoginPageNew(),
+        '/Dashboard': (context) => DashboardPage(userType: (ModalRoute.of(context)?.settings.arguments as String?) ?? "defaultUserType"),
         '/Dashboard/qr': (context) => const QRPage(title: "QR Page"),
         '/leaderboard': (context) => const LeaderboardPage(title: "Leaderboards"),
-        '/profile': (context) => const ProfilePage(userType: 'Student',),
-        '/admin_dash': (context) => const AdminDash(userType: 'Admin',),
+        '/profile': (context) => const ProfilePage(userType: 'Student'),
+        '/admin_dash': (context) => const AdminDash(userType: 'Admin'),
         '/create_event': (context) => const CreateEventScreen(),
         '/edit_event': (context) => const EditEventScreen(),
-        
       },
       theme: ThemeData(
         brightness: Brightness.dark,
