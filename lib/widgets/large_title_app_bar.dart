@@ -20,11 +20,11 @@ class LargeAppBar extends StatelessWidget implements PreferredSizeWidget{
       automaticallyImplyLeading: true,
       toolbarHeight: screenHeight*0.2,
       centerTitle: false,
-      backgroundColor: Colors.black.withAlpha(80),
+      backgroundColor: Colors.black.withAlpha(100),
       title: 
       BackdropFilter(
         //Blur behind
-        filter: ImageFilter.blur(sigmaX: 25,sigmaY: 25),
+        filter: ImageFilter.blur(sigmaX: 2,sigmaY: 2),
         child: Text(title,style: titleStyle,),
       ),
     );

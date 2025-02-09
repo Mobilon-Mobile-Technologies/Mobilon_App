@@ -1,14 +1,15 @@
+import 'package:admin_page/constants/style.dart';
+import 'package:admin_page/models/events.dart';
 import 'package:admin_page/widgets/border_button.dart';
 import 'package:admin_page/widgets/gradient_box.dart';
 import 'package:admin_page/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 
 class DashboardCard extends StatelessWidget {
-  const DashboardCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle});
-  final String eventName;
+  const DashboardCard({super.key, required this.event});
+  final Events event;
 
-  final TextStyle bodyStyle;
-  final TextStyle subStyle;
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +38,11 @@ class DashboardCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        eventName,
+                        event.name,
                         style: bodyStyle
                       ),
                       Text(
-                        "12 Aug",
+                        event.start_date.toString(),
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),

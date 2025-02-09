@@ -17,7 +17,7 @@ class BottomNavigationPage extends StatefulWidget {
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int _selectedIndex = 0;
-  List<bool> highlight = [false, false, true];
+  List<bool> highlight = [true, false, false];
   double meanSize = 0;
   double screenHeight = 0;
   TextStyle titleStyle = const TextStyle(

@@ -1,4 +1,5 @@
 import 'package:admin_page/constants/style.dart';
+import 'package:admin_page/models/events.dart';
 import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_page/widgets/dashboardcard.dart';
@@ -74,10 +75,10 @@ class _DashboardPageState extends State<DashboardPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
                           child: IntrinsicWidth(
                               child: DashboardCard(
-                            eventName: i,
-                            bodyStyle:
-                                bodyStyle.copyWith(fontSize: screenWidth*0.04),
-                            subStyle: subStyle.copyWith(fontSize: screenWidth*0.03),
+                            event: Events("", i, "", "start_time", "end_date", "end_time", "location", "description", "capacity"),
+                            // bodyStyle:
+                            //     bodyStyle.copyWith(fontSize: screenWidth*0.04),
+                            // subStyle: subStyle.copyWith(fontSize: screenWidth*0.03),
                           )),
                         ),
                     ],
