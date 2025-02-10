@@ -1,145 +1,156 @@
+import 'package:admin_page/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LoginPageNew extends StatefulWidget {
-  const LoginPageNew({super.key});
-  //final sched;
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  _LoginPageNewState createState() => _LoginPageNewState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageNewState extends State<LoginPageNew> {
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  List<bool> isSelected = [true, false];
+  String userType = "Student";
 
-  // Function to sign in the user
-  Future<void> _signIn(BuildContext context) async {
-    final email = _emailController.text;
-    final password = _passwordController.text;
-
+  Future<void> _loginWithMicrosoft(BuildContext context) async {
     try {
-      // Sign in using Supabase
-      final response = await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
+      final response = await Supabase.instance.client.auth.signInWithOAuth(
+        OAuthProvider.azure,
+        authScreenLaunchMode: LaunchMode.inAppWebView,
+        redirectTo: "https://bdnzbelpbjqtohgkbmkc.supabase.co/auth/v1/callback",
       );
 
-      // If sign-in is successful, navigate to HomePage
-      if (response.user != null) {
-        Navigator.pop(context);
-      } else {
-        // Show error if no user is returned
+      if (!response) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to login with Microsoft')),
+          );
+        }
+        return;
+      }
+
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to sign in')),
+          const SnackBar(content: Text('Successfully logged in with Microsoft')),
+        );
+
+        Navigator.pushReplacementNamed(context, '/Dashboard');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
         );
       }
-    } catch (error) {
-      // Catch any errors and show the error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $error')),
-      );
     }
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter an email';
+    }
+    // final emailRegex =
+    //     RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+@bennett\.edu\.in$');
+    // if (!emailRegex.hasMatch(value)) {
+    //   return 'Only @bennett.edu.in emails are allowed';
+    // }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black26,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  SizedBox(height: constraints.maxHeight * 0.1),
-                  Image.asset(
-                    "assets/images/img1.png",
-                    height: 200,
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(9.0),
+                  child: Image.asset("assets/FlutterImg.png"),
+                ),
+                const SizedBox(height: 20),
+                ToggleButtons(
+                  borderRadius: BorderRadius.circular(10),
+                  children: const [
+                    Padding(padding: EdgeInsets.all(8.0), child: Text("Student")),
+                    Padding(padding: EdgeInsets.all(8.0), child: Text("Admin")),
+                  ],
+                  isSelected: isSelected,
+                  onPressed: (index) {
+                    setState(() {
+                      for (int i = 0; i < isSelected.length; i++) {
+                        isSelected[i] = (i == index);
+                      }
+                      userType = (index == 0) ? "Student" : "Admin";
+                    });
+                  },
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    'Login to your account',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
-                  SizedBox(height: constraints.maxHeight * 0.1),
-                  Text(
-                    "Sign In",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: constraints.maxHeight * 0.05),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        // Email TextField
-                        TextFormField(
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(
-                            hintText: 'Email',
-                            filled: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16.0 * 1.5, vertical: 16.0),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                            ),
+                            labelText: 'Email',
+                            border: OutlineInputBorder(),
                           ),
+                          validator: _validateEmail,
                           keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: TextFormField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              hintText: 'Password',
-                              filled: true,
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16.0 * 1.5, vertical: 16.0),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            border: OutlineInputBorder(),
                           ),
+                          obscureText: true,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              _signIn(context);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
-                            minimumSize: const Size(double.infinity, 48),
-                            shape: const StadiumBorder(),
-                          ),
-                          child: const Text("Sign In"),
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.pushReplacementNamed(context, '/Dashboard');
+                          }
+                        },
+                        child: const Text('Login'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
+                ),
+                const SizedBox(height: 20),
+                // ElevatedButton.icon(
+                //   onPressed: () => _loginWithMicrosoft(context),
+                //   icon: const Icon(Icons.account_circle),
+                //   label: const Text('Login with Microsoft'),
+                //   style: ElevatedButton.styleFrom(
+                //     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
         ),
       ),
     );

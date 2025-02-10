@@ -6,7 +6,7 @@ import 'package:admin_page/screens/admin_screens/login_new.dart';
 import 'package:admin_page/screens/dashboard.dart';
 import 'package:admin_page/screens/admin_screens/edit_event.dart';
 import 'package:admin_page/screens/leaderboard_page.dart';
-import 'package:admin_page/screens/login.dart';
+// import 'package:admin_page/screens/login.dart';
 import 'package:admin_page/screens/eventsPage.dart';
 import 'package:admin_page/screens/profile_page.dart';
 import 'package:admin_page/screens/qr_page.dart';
@@ -37,7 +37,7 @@ class RSVPApp extends StatelessWidget {
       initialRoute: Supabase.instance.client.auth.currentSession != null ? '/' : '/login',
       routes: {
         '/': (context) => BottomNavigationPage(userType: 'Student'),
-        '/login': (context) => const LoginPageNew(),
+        '/login': (context) => const LoginPage(),
         '/Dashboard': (context) => DashboardPage(userType: (ModalRoute.of(context)?.settings.arguments as String?) ?? "defaultUserType"),
         '/Dashboard/qr': (context) => const QRPage(title: "QR Page"),
         '/leaderboard': (context) => const LeaderboardPage(title: "Leaderboards"),
