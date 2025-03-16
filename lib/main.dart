@@ -3,17 +3,16 @@ import 'package:admin_page/screens/admin_screens/admin_dash.dart';
 import 'package:admin_page/screens/bottom_navbar.dart';
 import 'package:admin_page/screens/admin_screens/create_event.dart';
 import 'package:admin_page/screens/admin_screens/login_new.dart';
+import 'package:admin_page/screens/admin_screens/signup_page.dart';
 import 'package:admin_page/screens/dashboard.dart';
 import 'package:admin_page/screens/admin_screens/edit_event.dart';
 import 'package:admin_page/screens/leaderboard_page.dart';
-import 'package:admin_page/screens/login.dart';
-import 'package:admin_page/screens/eventsPage.dart';
 import 'package:admin_page/screens/profile_page.dart';
 import 'package:admin_page/screens/qr_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'screens/admin_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,15 +30,16 @@ class RSVPApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAdmin= Supabase.instance.client.auth.currentSession != null;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AdminPage',
-      initialRoute: Supabase.instance.client.auth.currentSession != null ? '/' : '/login',
+      initialRoute: isAdmin ? '/' : '/login',
       routes: {
-        '/': (context) => BottomNavigationPage(userType: 'Student'),
+        '/': (context) => BottomNavigationPage(userType: "Student"),
         '/login': (context) => const LoginPageNew(),
+        '/signup': (context) => const SignupPage(),
         '/Dashboard': (context) => DashboardPage(userType: (ModalRoute.of(context)?.settings.arguments as String?) ?? "defaultUserType"),
-        '/Dashboard/qr': (context) => const QRPage(title: "QR Page"),
         '/leaderboard': (context) => const LeaderboardPage(title: "Leaderboards"),
         '/profile': (context) => const ProfilePage(userType: 'Student'),
         '/admin_dash': (context) => const AdminDash(userType: 'Admin'),
@@ -48,7 +48,6 @@ class RSVPApp extends StatelessWidget {
       },
       theme: ThemeData(
         brightness: Brightness.dark,
-        useMaterial3: true,
       ),
     );
   }

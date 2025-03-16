@@ -28,7 +28,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
 
       // If sign-in is successful, navigate to HomePage
       if (response.user != null) {
-        Navigator.pop(context);
+        Navigator.popAndPushNamed(context, '/');
       } else {
         // Show error if no user is returned
         ScaffoldMessenger.of(context).showSnackBar(
@@ -46,7 +46,7 @@ class _LoginPageNewState extends State<LoginPageNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black26,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -132,6 +132,19 @@ class _LoginPageNewState extends State<LoginPageNew> {
                             shape: const StadiumBorder(),
                           ),
                           child: const Text("Sign In"),
+                        ),
+                        
+                        const SizedBox(height: 16.0),
+                        
+                        // Sign Up Link
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/signup');
+                          },
+                          child: const Text(
+                            "Don't have an account? Sign Up",
+                            style: TextStyle(color: Colors.white70),
+                          ),
                         ),
                       ],
                     ),

@@ -39,6 +39,8 @@ class _EventsPageState extends State<EventsPage> {
     _controller.dispose();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
@@ -91,20 +93,26 @@ class _EventsPageState extends State<EventsPage> {
 
   Future<void> getEvents() async {
     final list = await supabase.from("events").select("*");
-    setState(() {
-      events = list
-          .map((event) => Events(
-                event["event_id"].toString(),
-                event["name"].toString(),
-                event["start_date"],
-                event["start_time"],
-                event["end_date"],
-                event["end_time"],
-                event["location"],
-                event["description"],
-                event["capacity"].toString(), // Convert capacity to String
-              ))
-          .toList();
-    });
+    if (mounted) {
+      setState(() {
+        events = list
+            .map((event) => Events(
+                  event["event_id"],
+                  event["name"].toString(),
+                  event["start_date"],
+                  event["start_time"],
+                  event["end_date"],
+                  event["end_time"],
+                  event["location"],
+                  event["description"],
+                  event["capacity"].toString(), // Convert capacity to String
+                ))
+            .toList();
+      });
+    }
   }
+
+  
 }
+
+

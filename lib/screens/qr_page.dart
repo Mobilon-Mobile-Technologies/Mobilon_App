@@ -3,24 +3,49 @@
 
 //QR Page Screen
 
+import 'package:admin_page/models/events.dart';
 import 'package:admin_page/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/gradient_line.dart';
 import '../widgets/gradient_box.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class QRPage extends StatefulWidget {
-  const QRPage({super.key, required this.title});
-  final String title;
+  const QRPage({super.key, required this.event});
+  final Events event;
 
   @override
   State<QRPage> createState() => _QRPageState();
 }
 
 class _QRPageState extends State<QRPage> {
- 
- //Gradient taken from figma
-  List<Color> radientGrad = [Color(0xFF9DE8EE),Color(0xFFFA7C0B),Color(0xFF9F8CED)];
+  List<Color> radientGrad = [Color(0xFF9DE8EE), Color(0xFFFA7C0B), Color(0xFF9F8CED)];
+  String? key;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDashboardData();
+  }
+
+  Future<void> fetchDashboardData() async {
+    final supabase = Supabase.instance.client;
+
+    final response = await supabase
+        .from('dashboard')
+        .select('key')
+        .eq('event_id', widget.event.events_id)
+        .single();
+
+    if (response.isNotEmpty) {
+      setState(() {
+        key = response['key'];
+      });
+    } else {
+      print('Error fetching dashboard data: $response');
+    }
+  }
 
   //Function to get icon from svg picture
   SvgPicture iconGet(String name){
@@ -33,7 +58,6 @@ class _QRPageState extends State<QRPage> {
 
   @override
   Widget build(BuildContext context) {
-
     //Screen dimensions
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height; 
@@ -51,7 +75,7 @@ class _QRPageState extends State<QRPage> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       backgroundColor: Colors.black,
-      appBar: LargeAppBar(screenHeight: screenHeight, title: widget.title, titleStyle: titleStyle),
+      appBar: LargeAppBar(screenHeight: screenHeight, title: widget.event.name, titleStyle: titleStyle),
       body: Container(
         decoration: BoxDecoration(
           //Background image
@@ -80,11 +104,12 @@ class _QRPageState extends State<QRPage> {
                     ),
 
                     GradLine(),
-                    Text("Event Name",style: bodyStyle,),
-                    Text("Venue",style: subStyle,),
-                    Text("DD/MM/YYYY",style: subStyle,),
+                    Text(widget.event.name,style: bodyStyle,),
+                    Text(widget.event.location,style: subStyle,),
+                    Text(widget.event.start_date,style: subStyle,),
+                    Text("UniqueID: $key", style: subStyle),
                     GradLine(),
-                    Text("Text Description...",style:bodyStyle.copyWith(color: Color(0xff808182)))
+                    Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182)))
                   ]
                 )
                 ),

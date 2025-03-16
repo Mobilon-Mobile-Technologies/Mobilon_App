@@ -1,5 +1,5 @@
 class Events {
-  String events_id;
+  int events_id;
   String name;
   String start_date;
   String start_time;
