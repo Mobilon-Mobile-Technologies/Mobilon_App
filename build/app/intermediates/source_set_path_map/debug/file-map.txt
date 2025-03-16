@@ -1,0 +1,47 @@
+com.example.admin_page.app-lifecycle-runtime-2.7.0-0 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/04a0175e0e8e9c54d86c2a196855bb5f/transformed/lifecycle-runtime-2.7.0/res
+com.example.admin_page.app-jetified-fragment-ktx-1.7.1-1 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/05a91bbe155827d064a62d222a108be2/transformed/jetified-fragment-ktx-1.7.1/res
+com.example.admin_page.app-recyclerview-1.0.0-2 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/10fee622601fce396373a2d52d7e6c35/transformed/recyclerview-1.0.0/res
+com.example.admin_page.app-jetified-lifecycle-viewmodel-savedstate-2.7.0-3 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/14588cb15ea46a1a60c8209b3f7bcf49/transformed/jetified-lifecycle-viewmodel-savedstate-2.7.0/res
+com.example.admin_page.app-core-runtime-2.2.0-4 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/1cc0480a760634e1666f8833bd4ff39a/transformed/core-runtime-2.2.0/res
+com.example.admin_page.app-preference-1.2.1-5 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/23874e5e36befc0f2ee193e4f300a98c/transformed/preference-1.2.1/res
+com.example.admin_page.app-jetified-core-ktx-1.13.1-6 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/24f8eb077d806d110924713c7c871f7f/transformed/jetified-core-ktx-1.13.1/res
+com.example.admin_page.app-browser-1.8.0-7 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/2bb686da04f4557a464fdd21c3da12d9/transformed/browser-1.8.0/res
+com.example.admin_page.app-jetified-activity-1.8.1-8 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/30b8005def8eabc73f147b05e6d09fcc/transformed/jetified-activity-1.8.1/res
+com.example.admin_page.app-jetified-lifecycle-viewmodel-ktx-2.7.0-9 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/31d5add86785d6d65c2c33552913501c/transformed/jetified-lifecycle-viewmodel-ktx-2.7.0/res
+com.example.admin_page.app-lifecycle-livedata-2.7.0-10 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/32e1bfa318565c6bb38e8bdd03eb9210/transformed/lifecycle-livedata-2.7.0/res
+com.example.admin_page.app-jetified-appcompat-resources-1.1.0-11 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/391bb466dc3f2854e154bdc41f2105a5/transformed/jetified-appcompat-resources-1.1.0/res
+com.example.admin_page.app-jetified-savedstate-1.2.1-12 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/396f5647497f1102be9dd6ca56400c1c/transformed/jetified-savedstate-1.2.1/res
+com.example.admin_page.app-jetified-annotation-experimental-1.4.0-13 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/3977eac139df66e82f7b17624ad0ffef/transformed/jetified-annotation-experimental-1.4.0/res
+com.example.admin_page.app-jetified-datastore-core-release-14 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/3b944ec6df3639065a59b04568e33ff2/transformed/jetified-datastore-core-release/res
+com.example.admin_page.app-jetified-profileinstaller-1.3.1-15 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/3b962473423880cfd56025b243ee1dab/transformed/jetified-profileinstaller-1.3.1/res
+com.example.admin_page.app-fragment-1.7.1-16 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/47e61f89bac7014069d64ef91b965776/transformed/fragment-1.7.1/res
+com.example.admin_page.app-jetified-lifecycle-livedata-core-ktx-2.7.0-17 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/5fc255a7eb1ff50645a2062d9eb655fd/transformed/jetified-lifecycle-livedata-core-ktx-2.7.0/res
+com.example.admin_page.app-jetified-core-1.0.0-18 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/692c410583a6652fc02ff437d7472a86/transformed/jetified-core-1.0.0/res
+com.example.admin_page.app-jetified-lifecycle-runtime-ktx-2.7.0-19 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/70b8c20eee91cc91150f87d3a4dd4cc0/transformed/jetified-lifecycle-runtime-ktx-2.7.0/res
+com.example.admin_page.app-slidingpanelayout-1.2.0-20 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/7bdc0de45fffbe9b2fab4f6917f82a84/transformed/slidingpanelayout-1.2.0/res
+com.example.admin_page.app-core-1.13.1-21 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/a284b8466c951c83b0ca64a9d428a0d5/transformed/core-1.13.1/res
+com.example.admin_page.app-jetified-startup-runtime-1.1.1-22 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/a54b93789f4f9823bd69e19eeb08d464/transformed/jetified-startup-runtime-1.1.1/res
+com.example.admin_page.app-jetified-window-java-1.2.0-23 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/acb2f6133c53c51578f338b02aa48986/transformed/jetified-window-java-1.2.0/res
+com.example.admin_page.app-coordinatorlayout-1.0.0-24 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/b2e916c049adf179555ea445001740a5/transformed/coordinatorlayout-1.0.0/res
+com.example.admin_page.app-jetified-datastore-release-25 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/b410f55b61ea65cd285386c7ff21b0d1/transformed/jetified-datastore-release/res
+com.example.admin_page.app-jetified-lifecycle-process-2.7.0-26 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/b7eed4f394230d14e2f2f0fe8b72950c/transformed/jetified-lifecycle-process-2.7.0/res
+com.example.admin_page.app-jetified-datastore-preferences-release-27 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/b91416b6877e43a79aee2fc18c52ab72/transformed/jetified-datastore-preferences-release/res
+com.example.admin_page.app-jetified-tracing-1.2.0-28 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/bf263c1a30f7707dc60341d464c8864a/transformed/jetified-tracing-1.2.0/res
+com.example.admin_page.app-lifecycle-livedata-core-2.7.0-29 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/c73bfe15ba57064f43ac67bc071b959d/transformed/lifecycle-livedata-core-2.7.0/res
+com.example.admin_page.app-jetified-window-1.2.0-30 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/ce545db4a961f10b82eb6b9d6c61b1e5/transformed/jetified-window-1.2.0/res
+com.example.admin_page.app-appcompat-1.1.0-31 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/d1e9859d50f6b3ca711086a77d39fe67/transformed/appcompat-1.1.0/res
+com.example.admin_page.app-lifecycle-viewmodel-2.7.0-32 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/dd8caf1c3ab6829f85d03c0894f314c2/transformed/lifecycle-viewmodel-2.7.0/res
+com.example.admin_page.app-transition-1.4.1-33 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/dfecfdc673c0d1c760970b19fb1110ae/transformed/transition-1.4.1/res
+com.example.admin_page.app-jetified-activity-ktx-1.8.1-34 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/ef46cfa0b5ec6ad19f27da39f37bcba3/transformed/jetified-activity-ktx-1.8.1/res
+com.example.admin_page.app-jetified-savedstate-ktx-1.2.1-35 /Users/kshitizkapoor/.gradle/caches/8.10/transforms/ff3b60ccfff16fb76341dba40446589a/transformed/jetified-savedstate-ktx-1.2.1/res
+com.example.admin_page.app-debug-36 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/android/app/src/debug/res
+com.example.admin_page.app-main-37 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/android/app/src/main/res
+com.example.admin_page.app-pngs-38 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/app/generated/res/pngs/debug
+com.example.admin_page.app-resValues-39 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/app/generated/res/resValues/debug
+com.example.admin_page.app-packageDebugResources-40 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/app/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.example.admin_page.app-packageDebugResources-41 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/app/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.example.admin_page.app-merged_res-42 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/app/intermediates/merged_res/debug
+com.example.admin_page.app-packaged_res-43 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/app_links/intermediates/packaged_res/debug
+com.example.admin_page.app-packaged_res-44 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/path_provider_android/intermediates/packaged_res/debug
+com.example.admin_page.app-packaged_res-45 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/shared_preferences_android/intermediates/packaged_res/debug
+com.example.admin_page.app-packaged_res-46 /Users/kshitizkapoor/Documents/FlutterDev/Flutter Projects/Mobilon_App/build/url_launcher_android/intermediates/packaged_res/debug
