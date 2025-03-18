@@ -17,15 +17,35 @@ class LargeAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: true,
+      automaticallyImplyLeading: false,
       toolbarHeight: screenHeight*0.2,
       centerTitle: false,
       backgroundColor: Colors.black.withAlpha(100),
-      title: 
-      BackdropFilter(
-        //Blur behind
-        filter: ImageFilter.blur(sigmaX: 2,sigmaY: 2),
-        child: Text(title,style: titleStyle,),
+      flexibleSpace: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          child: Container(
+            color: Colors.transparent,
+          ),
+        ),
+      ),
+      title: Row(
+        children: [
+          if (Navigator.of(context).canPop())
+            IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+          SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              title,
+              style: titleStyle,
+            ),
+          ),
+        ],
       ),
     );
   }

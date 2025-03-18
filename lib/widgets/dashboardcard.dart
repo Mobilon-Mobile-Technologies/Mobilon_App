@@ -147,28 +147,7 @@ class _DashboardCardState extends State<DashboardCard> {
             ),
             child: Stack(
               children: [
-                // Close button
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                
-                // Main content
+                // Main content (removed close button)
                 SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.all(20),
@@ -260,6 +239,26 @@ class _DashboardCardState extends State<DashboardCard> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 20),
+                        // Add Done button at the bottom
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white.withOpacity(0.2),
+                            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(
+                            "Done",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -288,8 +287,8 @@ class _DashboardCardState extends State<DashboardCard> {
                   builder: (BuildContext context) {
                     return Dialog(
                       child: Image.asset(
-                        "assets/mobile_next.jpeg", // Your image path
-                        fit: BoxFit.fitWidth,
+                        "assets/mobile_next.jpeg", 
+                        fit: BoxFit.fitHeight,
                         width: screenSize.width * 0.9,
                         height: screenSize.height * 0.5,
                       ),
@@ -301,7 +300,7 @@ class _DashboardCardState extends State<DashboardCard> {
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
                   "assets/mobile_next.jpeg",
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitHeight,
                   height: screenSize.height * 0.2,
                   width: screenSize.width * 0.8, 
                 ),
@@ -367,8 +366,6 @@ class _RSVPDialog extends StatefulWidget {
 class _RSVPDialogState extends State<_RSVPDialog> {
   late ConfettiController _confettiController;
   bool _isConfirmed = false;
-  double _dragValue = 0.0;
-  final double _dragThreshold = 0.9; // Threshold to consider drag complete
 
   @override
   void initState() {
@@ -500,36 +497,7 @@ class _RSVPDialogState extends State<_RSVPDialog> {
               ),
               child: Stack(
                 children: [
-                  // Close button
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: InkWell(
-                      onTap: _isConfirmed ? null : () {
-                        if (mounted && !_isConfirmed) {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: _isConfirmed 
-                            ? Colors.white.withOpacity(0.1)  // Dimmed when confirmed
-                            : Colors.white.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.close,
-                          color: _isConfirmed 
-                            ? Colors.white.withOpacity(0.5)  // Dimmed when confirmed
-                            : Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  
-                  // Main content
+                  // Main content (removed close button)
                   SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(20),
@@ -611,100 +579,44 @@ class _RSVPDialogState extends State<_RSVPDialog> {
                           
                           // Conditional content based on confirmation state
                           if (!_isConfirmed) ...[
-                            Text(
-                              "Drag to confirm your RSVP",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
                             SizedBox(height: 20),
-                            
-                            // Drag to confirm slider
-                            Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(30),
+                            ElevatedButton(
+                              onPressed: _confirmRSVP,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green.withOpacity(0.8),
+                                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
                               ),
-                              child: Stack(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  // Progress indicator
-                                  AnimatedContainer(
-                                    duration: Duration(milliseconds: 100),
-                                    width: widget.screenSize.width * 0.9 * _dragValue,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.green.withOpacity(0.5),
-                                          Colors.green.withOpacity(0.7),
-                                        ],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(30),
+                                  Text(
+                                    "Confirm RSVP",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  
-                                  // Slider thumb
-                                  GestureDetector(
-                                    onHorizontalDragUpdate: (details) {
-                                      final containerWidth = widget.screenSize.width * 0.9 - 40;
-                                      final newValue = _dragValue + details.delta.dx / containerWidth;
-                                      setState(() {
-                                        _dragValue = newValue.clamp(0.0, 1.0);
-                                      });
-                                      
-                                      // Check if drag is complete
-                                      if (_dragValue >= _dragThreshold) {
-                                        _confirmRSVP();
-                                      }
-                                    },
-                                    onHorizontalDragEnd: (details) {
-                                      if (_dragValue < _dragThreshold) {
-                                        setState(() {
-                                          _dragValue = 0.0;
-                                        });
-                                      }
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                        left: (_dragValue * (widget.screenSize.width * 0.9 - 60)).clamp(0.0, double.infinity),
-                                      ),
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
-                                            blurRadius: 5,
-                                            spreadRadius: 1,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                  ),
-                                  
-                                  // Text hint
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Slide to confirm",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                  SizedBox(width: 10),
+                                  Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.white,
+                                    size: 24,
                                   ),
                                 ],
                               ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "By confirming, you agree to attend this event",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white.withOpacity(0.7),
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ] else ...[
                             // Confirmation message

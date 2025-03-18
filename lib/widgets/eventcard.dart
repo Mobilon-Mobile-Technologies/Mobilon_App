@@ -50,27 +50,6 @@ class EventCard extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                // Close button
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-
                 // Main content
                 SingleChildScrollView(
                   child: Padding(
@@ -163,6 +142,28 @@ class EventCard extends StatelessWidget {
                             ],
                           ),
                         ),
+                        SizedBox(height: 5,),
+                        ElevatedButton(
+                          onPressed: () =>
+                              Navigator.of(context, rootNavigator: true).pop(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white.withOpacity(0.2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          
+                          child: Text(
+                            "Done",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -192,7 +193,7 @@ class EventCard extends StatelessWidget {
                     return Dialog(
                       child: Image.asset(
                         "assets/mobile_next.jpeg", // Your image path
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fitHeight,
                         width: screenSize.width * 0.9,
                         height: screenSize.height * 0.5,
                       ),
@@ -204,7 +205,7 @@ class EventCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
                   "assets/mobile_next.jpeg",
-                  fit: BoxFit.fill,
+                  fit: BoxFit.fitHeight,
                   height: screenSize.height * 0.2,
                   width: screenSize.width * 0.8,
                 ),

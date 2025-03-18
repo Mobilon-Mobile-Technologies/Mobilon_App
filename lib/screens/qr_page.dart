@@ -76,48 +76,105 @@ class _QRPageState extends State<QRPage> {
       extendBody: true,
       backgroundColor: Colors.black,
       appBar: LargeAppBar(screenHeight: screenHeight, title: widget.event.name, titleStyle: titleStyle),
-      body: Container(
-        decoration: BoxDecoration(
-          //Background image
-          image: DecorationImage(image: AssetImage("assets/Background.png"),fit: BoxFit.cover)
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(meanSize/40),
-          child: ListView(
-
-            scrollDirection: Axis.vertical,
-            children: [
-              Padding(
-              padding: EdgeInsets.all(meanSize/20),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/Background.png"), fit: BoxFit.cover)
+          ),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(meanSize/40, screenHeight * 0.08, meanSize/40, meanSize/40),
               child: GradientBox(
-                child: 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                    width: meanSize/2,
-                    height: meanSize/2,
-                    decoration: BoxDecoration(
-                      //Background image
-                      image: DecorationImage(image: AssetImage("assets/qr.png"),fit: BoxFit.contain)
-                    ),
-                    ),
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // QR Code
+                      AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Container(
+                          width: screenWidth * 0.6,
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            image: DecorationImage(
+                              image: AssetImage("assets/qr.png"),
+                              fit: BoxFit.contain
+                            )
+                          ),
+                        ),
+                      ),
 
-                    GradLine(),
-                    Text(widget.event.name,style: bodyStyle,),
-                    Text(widget.event.location,style: subStyle,),
-                    Text(widget.event.start_date,style: subStyle,),
-                    Text("UniqueID: $key", style: subStyle),
-                    GradLine(),
-                    Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182)))
-                  ]
-                )
+                      GradLine(),
+                      
+                      // Event details
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        child: Text(
+                          widget.event.name, 
+                          style: bodyStyle.copyWith(
+                            fontSize: meanSize/32, 
+                            fontWeight: FontWeight.bold
+                          ),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          widget.event.location, 
+                          style: subStyle,
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 2),
+                        child: Text(
+                          widget.event.start_date, 
+                          style: subStyle,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          "UniqueID: ${key ?? 'Loading...'}",
+                          style: subStyle.copyWith(
+                            fontWeight: FontWeight.bold, 
+                            fontSize: meanSize/45
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      
+                      GradLine(),
+                      
+                      // Description
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                        child: Text(
+                          widget.event.description,
+                          style: bodyStyle.copyWith(color: Color(0xff808182)),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              )
-            ]
-          )
-        )
-      )
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
