@@ -7,13 +7,11 @@ import 'package:admin_page/screens/dashboard.dart';
 import 'package:admin_page/screens/admin_screens/edit_event.dart';
 import 'package:admin_page/screens/leaderboard_page.dart';
 // import 'package:admin_page/screens/login.dart';
-import 'package:admin_page/screens/eventsPage.dart';
 import 'package:admin_page/screens/profile_page.dart';
 import 'package:admin_page/screens/qr_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'screens/admin_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +20,6 @@ void main() async {
     url: SUPABASE_URL,
     anonKey: SUPABASE_ANON_KEY,
   );
-
   runApp(const RSVPApp());
 }
 

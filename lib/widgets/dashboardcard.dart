@@ -2,14 +2,19 @@ import 'package:admin_page/widgets/border_button.dart';
 import 'package:admin_page/widgets/gradient_box.dart';
 import 'package:admin_page/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
+import 'package:admin_page/functions/reserve.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DashboardCard extends StatelessWidget {
-  const DashboardCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle});
+  const DashboardCard({super.key, required this.event_id, required this.eventName, required this.bodyStyle, required this.subStyle});
+  final String event_id;
   final String eventName;
 
   final TextStyle bodyStyle;
   final TextStyle subStyle;
 
+
+  
   @override
   Widget build(BuildContext context) {
     final screenSize=MediaQuery.of(context).size;
@@ -52,7 +57,7 @@ class DashboardCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     BorderButton(height: screenSize.width*0.075,text: "Details", onTap: () => print("a")),
-                    BorderButton(height: screenSize.width*0.075,text: "Reserve", onTap: () => print("b")),
+                    BorderButton(height: screenSize.width*0.075,text: "Reserve", onTap: () => reserveEvent(event_id)),
                   ],
                 ),
               ],

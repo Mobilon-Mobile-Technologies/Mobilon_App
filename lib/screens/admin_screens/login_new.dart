@@ -21,9 +21,10 @@ class _LoginPageState extends State<LoginPage> {
       final response = await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.azure,
         authScreenLaunchMode: LaunchMode.inAppWebView,
-        redirectTo: "https://bdnzbelpbjqtohgkbmkc.supabase.co/auth/v1/callback",
+        redirectTo: "https://lgvshlbpnybhhhzkgvrp.supabase.co/auth/v1/callback",
       );
-
+      
+      // Check if sign in was successful
       if (!response) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -33,17 +34,51 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Successfully logged in with Microsoft')),
-        );
+      // Check if session exists after login
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session == null) {
+        throw Exception('No session after login');
+      }
 
-        Navigator.pushReplacementNamed(context, '/Dashboard');
+      print('Login successful - User ID: ${session.user.id}');
+      print('Login successful - Email: ${session.user.email}');
+
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, '/');
       }
     } catch (e) {
+      print('Login error: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
+    }
+  }
+
+  Future<void> _loginWithEmailAndPassword() async {
+    try {
+      if (!_formKey.currentState!.validate()) return;
+
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (response.session == null) {
+        throw Exception('Login failed');
+      }
+
+      print('Email login successful - User ID: ${response.user?.id}');
+      
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, '/');
+      }
+    } catch (e) {
+      print('Login error: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: ${e.toString()}')),
         );
       }
     }
@@ -129,25 +164,21 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.pushReplacementNamed(context, '/Dashboard');
-                          }
-                        },
+                        onPressed: _loginWithEmailAndPassword,
                         child: const Text('Login'),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                // ElevatedButton.icon(
-                //   onPressed: () => _loginWithMicrosoft(context),
-                //   icon: const Icon(Icons.account_circle),
-                //   label: const Text('Login with Microsoft'),
-                //   style: ElevatedButton.styleFrom(
-                //     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                //   ),
-                // ),
+                ElevatedButton.icon(
+                  onPressed: () => _loginWithMicrosoft(context),
+                  icon: const Icon(Icons.account_circle),
+                  label: const Text('Login with Microsoft'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                ),
               ],
             ),
           ),

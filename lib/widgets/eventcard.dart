@@ -52,7 +52,7 @@ class EventCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     BorderButton(height: 28,text: "Details", onTap: () => print("a")),
-                    BorderButton(height: 28,text: "Get QR", onTap: reserve),
+                    BorderButton(height: 28,text: "Get QR", onTap: () => reserve()),
                   ],
                 ),
               ],
