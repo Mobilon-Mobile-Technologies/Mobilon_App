@@ -11,16 +11,16 @@ import '../widgets/gradient_box.dart';
 import '../models/events.dart';
 import '../functions/make_qr.dart';
 
-class QRPage extends StatefulWidget {
-  const QRPage({super.key, required this.event});
+class EventDetailsScreen extends StatefulWidget {
+  const EventDetailsScreen({super.key, required this.event});
   final Events event;
 
   @override
-  State<QRPage> createState() => _QRPageState();
+  State<EventDetailsScreen> createState() => _EventDetailsScreenState();
 }
 
-class _QRPageState extends State<QRPage> {
- 
+class _EventDetailsScreenState extends State<EventDetailsScreen> {
+
  //Gradient taken from figma
   List<Color> radientGrad = [Color(0xFF9DE8EE),Color(0xFFFA7C0B),Color(0xFF9F8CED)];
 
@@ -53,7 +53,7 @@ class _QRPageState extends State<QRPage> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       backgroundColor: Colors.black,
-      appBar: LargeAppBar(screenHeight: screenHeight, title: "CheckIn: ${widget.event.name}", titleStyle: titleStyle),
+      appBar: LargeAppBar(screenHeight: screenHeight, title: "Reserve: ${widget.event.name}", titleStyle: titleStyle),
       body: Container(
         decoration: BoxDecoration(
           //Background image
@@ -88,7 +88,7 @@ class _QRPageState extends State<QRPage> {
                                 tileMode: TileMode.clamp,
                               ).createShader(bounds);
                             },
-                            child: genQr(widget.event, meanSize/2),
+                            child: genReserveQr(widget.event, meanSize/2),
                           ),
                         ),
                       ),

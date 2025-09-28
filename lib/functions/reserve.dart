@@ -19,15 +19,72 @@ void reserveEvent(String eventId) async {
 }
 
 Future<bool> checkIfReserved(String eventId) async {
-  print("Checking reservation status for event: $eventId");
-  final user_id = getCurrentUserId();
-  if (user_id == null) return false;
-  final response = await supabase
-      .from('reservations')
-      .select()
-      .eq('event_id', eventId)
-      .eq('user_id', user_id)
-      .single();
+  try {
+    final user_id = getCurrentUserId();
+    if (user_id == null) return false;
+    
+    // Use maybeSingle instead of single
+    final result = await supabase
+        .from('reservations')
+        .select()
+        .eq('event_id', eventId)
+        .eq('user_id', user_id)
+        .maybeSingle();
+    
+    // Return true if NOT reserved (null means no reservation found)
+    return result == null;
+    
+  } catch (error) {
+    print("Error checking reservation: $error");
+    return false;
+  }
+}
 
-  return response.isEmpty;
+Future<void> addCheckinToSupabase(String eventId) async {
+  try {
+    print("\nAdding check-in for event: $eventId");
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    
+    if (userId == null) {
+      print("Error: No user logged in");
+      return;
+    }
+    
+    print("User ID: $userId");
+    
+    // Update the reservation with count
+    await Supabase.instance.client
+        .from('reservations')
+        .update({'has_entered': true})
+        .eq('event_id', eventId)
+        .eq('user_id', userId);
+    
+  } catch (error) {
+    print("Error updating check-in: $error");
+  }
+}
+
+Future<bool> checkIfEntered(String eventId) async {
+  try {
+    final user_id = getCurrentUserId();
+    if (user_id == null) return false;
+    
+    // Use maybeSingle instead of single
+    final result = await supabase
+        .from('reservations')
+        .select()
+        .eq('event_id', eventId)
+        .eq('user_id', user_id)
+        .maybeSingle();
+    
+    // If no reservation, return false
+    if (result == null) return false;
+    
+    // Return has_entered status
+    return result['has_entered'] ?? false;
+    
+  } catch (error) {
+    print("Error checking entry status: $error");
+    return false;
+  }
 }

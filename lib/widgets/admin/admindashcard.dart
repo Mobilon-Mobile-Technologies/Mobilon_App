@@ -1,3 +1,4 @@
+import 'package:admin_page/models/events.dart';
 import 'package:admin_page/widgets/border_button.dart';
 import 'package:admin_page/widgets/gradient_box.dart';
 import 'package:admin_page/widgets/gradient_line.dart';
@@ -6,11 +7,12 @@ import 'package:flutter/material.dart';
 class Admindashcard extends StatelessWidget {
   const Admindashcard(
       {super.key,
-      required this.eventName,
+      required this.event,
       required this.bodyStyle,
-      required this.subStyle});
-  final String eventName;
-
+      required this.subStyle,
+      required this.edit});
+  final Events event;
+  final VoidCallback edit;
   final TextStyle bodyStyle;
   final TextStyle subStyle;
 
@@ -38,9 +40,11 @@ class Admindashcard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(eventName, style: bodyStyle),
+                      Text(event.name, style: bodyStyle),
                       Text(
-                        "12 Aug",
+                        event.start_date == event.end_date
+                            ? "${event.start_time} - ${event.end_time}"
+                            : "${event.start_date} - ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),
@@ -53,9 +57,8 @@ class Admindashcard extends StatelessWidget {
                     BorderButton(
                         height: 28,
                         text: "Edit Event",
-                        onTap: () {
-                          Navigator.pushNamed(context, '/edit_event');
-                        }),
+                        onTap: edit,
+                      ),
                   ],
                 ),
               ],

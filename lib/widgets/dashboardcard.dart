@@ -2,17 +2,15 @@ import 'package:admin_page/widgets/border_button.dart';
 import 'package:admin_page/widgets/gradient_box.dart';
 import 'package:admin_page/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
-import 'package:admin_page/functions/reserve.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/events.dart';
 
 class DashboardCard extends StatelessWidget {
-  const DashboardCard({super.key, required this.event_id, required this.eventName, required this.bodyStyle, required this.subStyle});
-  final String event_id;
-  final String eventName;
-
+  const DashboardCard({super.key, required this.navigatorToReserveQR, required this.event, required this.navigatorToQR, required this.bodyStyle, required this.subStyle});
+  final Events event;
+  final VoidCallback navigatorToReserveQR;
+  final VoidCallback navigatorToQR;
   final TextStyle bodyStyle;
   final TextStyle subStyle;
-
 
   
   @override
@@ -42,11 +40,13 @@ class DashboardCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        eventName,
+                        event.name,
                         style: bodyStyle
                       ),
                       Text(
-                        "12 Aug",
+                        event.start_date == event.end_date
+                            ? "${event.start_time} - ${event.end_time}"
+                            : "${event.start_date} - ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),
@@ -56,8 +56,8 @@ class DashboardCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BorderButton(height: screenSize.width*0.075,text: "Details", onTap: () => print("a")),
-                    BorderButton(height: screenSize.width*0.075,text: "Reserve", onTap: () => reserveEvent(event_id)),
+                    BorderButton(height: screenSize.width*0.075,text: "Details", onTap: navigatorToReserveQR),
+                    BorderButton(height: screenSize.width*0.075,text: "Get QR", onTap: navigatorToQR),
                   ],
                 ),
               ],

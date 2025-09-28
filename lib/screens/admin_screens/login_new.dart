@@ -1,6 +1,6 @@
-import 'package:admin_page/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../constants/isLoggedInAsAdmin.dart' as AdminStatus;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,39 +13,18 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  List<bool> isSelected = [true, false];
-  String userType = "Student";
 
   Future<void> _loginWithMicrosoft(BuildContext context) async {
     try {
-      final response = await Supabase.instance.client.auth.signInWithOAuth(
+      await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.azure,
-        authScreenLaunchMode: LaunchMode.inAppWebView,
-        redirectTo: "https://lgvshlbpnybhhhzkgvrp.supabase.co/auth/v1/callback",
+        redirectTo: 'io.supabase.flutterquickstart://login-callback/',
+        authScreenLaunchMode: LaunchMode.externalApplication,
+        scopes: 'openid email profile User.Read'
       );
       
-      // Check if sign in was successful
-      if (!response) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to login with Microsoft')),
-          );
-        }
-        return;
-      }
-
-      // Check if session exists after login
-      final session = Supabase.instance.client.auth.currentSession;
-      if (session == null) {
-        throw Exception('No session after login');
-      }
-
-      print('Login successful - User ID: ${session.user.id}');
-      print('Login successful - Email: ${session.user.email}');
-
-      if (context.mounted) {
-        Navigator.pushReplacementNamed(context, '/');
-      }
+      print('OAuth flow initiated...');
+      
     } catch (e) {
       print('Login error: $e');
       if (context.mounted) {
@@ -70,6 +49,9 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       print('Email login successful - User ID: ${response.user?.id}');
+      
+      // Set admin status based on database after successful login
+      await AdminStatus.setAdminStatus();
       
       if (context.mounted) {
         Navigator.pushReplacementNamed(context, '/');
@@ -112,22 +94,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: Image.asset("assets/FlutterImg.png"),
                 ),
                 const SizedBox(height: 20),
-                ToggleButtons(
-                  borderRadius: BorderRadius.circular(10),
-                  children: const [
-                    Padding(padding: EdgeInsets.all(8.0), child: Text("Student")),
-                    Padding(padding: EdgeInsets.all(8.0), child: Text("Admin")),
-                  ],
-                  isSelected: isSelected,
-                  onPressed: (index) {
-                    setState(() {
-                      for (int i = 0; i < isSelected.length; i++) {
-                        isSelected[i] = (i == index);
-                      }
-                      userType = (index == 0) ? "Student" : "Admin";
-                    });
-                  },
-                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(

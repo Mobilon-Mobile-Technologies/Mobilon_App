@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  CustomButton({super.key, required this.onTap, required this.text, this.icon, this.ratio=0.08});
+  const CustomButton({super.key, required this.onTap, required this.text, this.icon, this.ratio=0.08});
   final VoidCallback onTap;
   final String text;
   final Image? icon;

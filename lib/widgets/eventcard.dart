@@ -2,10 +2,11 @@ import 'package:admin_page/widgets/border_button.dart';
 import 'package:admin_page/widgets/gradient_box.dart';
 import 'package:admin_page/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
+import '../models/events.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key, required this.eventName, required this.bodyStyle, required this.subStyle, required this.reserve});
-  final String eventName;
+  const EventCard({super.key, required this.event, required this.bodyStyle, required this.subStyle, required this.reserve});
+  final Events event;
 
   final TextStyle bodyStyle;
   final TextStyle subStyle;
@@ -37,11 +38,13 @@ class EventCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        eventName,
+                        event.name,
                         style: bodyStyle
                       ),
                       Text(
-                        "12 Aug",
+                        event.start_date == event.end_date
+                            ? "${event.start_time} - ${event.end_time}"
+                            : "${event.start_date} - ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),
@@ -52,7 +55,7 @@ class EventCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     BorderButton(height: 28,text: "Details", onTap: () => print("a")),
-                    BorderButton(height: 28,text: "Get QR", onTap: () => reserve()),
+                    BorderButton(height: 28,text: "Reserve", onTap: () => reserve()),
                   ],
                 ),
               ],
