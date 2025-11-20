@@ -43,8 +43,8 @@ class EventCard extends StatelessWidget {
                       ),
                       Text(
                         event.start_date == event.end_date
-                            ? "${event.start_date} ${event.start_time.substring(0,5)} - ${event.end_time.substring(0,5)}"
-                            : "${event.start_date} - ${event.end_date}",
+                            ? "On ${event.start_date} \n${event.start_time.substring(0,5)} to ${event.end_time.substring(0,5)}"
+                            : "${event.start_date} \nto ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),
