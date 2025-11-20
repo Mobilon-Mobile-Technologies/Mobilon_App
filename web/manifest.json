@@ -1,6 +1,6 @@
 {
-    "name": "admin_page",
-    "short_name": "admin_page",
+    "name": "eventa",
+    "short_name": "eventa",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,6 +1,6 @@
-import 'package:admin_page/widgets/border_button.dart';
-import 'package:admin_page/widgets/gradient_box.dart';
-import 'package:admin_page/widgets/gradient_line.dart';
+import 'package:eventa/widgets/border_button.dart';
+import 'package:eventa/widgets/gradient_box.dart';
+import 'package:eventa/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 import '../models/events.dart';
 
@@ -54,7 +54,7 @@ class DashboardCard extends StatelessWidget {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     BorderButton(height: screenSize.width*0.075,text: "Details", onTap: navigatorToReserveQR),
                     BorderButton(height: screenSize.width*0.075,text: "Get QR", onTap: navigatorToQR),

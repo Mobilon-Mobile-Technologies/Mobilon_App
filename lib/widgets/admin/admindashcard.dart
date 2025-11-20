@@ -1,7 +1,7 @@
-import 'package:admin_page/models/events.dart';
-import 'package:admin_page/widgets/border_button.dart';
-import 'package:admin_page/widgets/gradient_box.dart';
-import 'package:admin_page/widgets/gradient_line.dart';
+import 'package:eventa/models/events.dart';
+import 'package:eventa/widgets/border_button.dart';
+import 'package:eventa/widgets/gradient_box.dart';
+import 'package:eventa/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 
 class Admindashcard extends StatelessWidget {
@@ -10,9 +10,13 @@ class Admindashcard extends StatelessWidget {
       required this.event,
       required this.bodyStyle,
       required this.subStyle,
-      required this.edit});
+      required this.edit,
+      required this.reserve,
+      required this.showQr});
   final Events event;
   final VoidCallback edit;
+  final VoidCallback reserve;
+  final VoidCallback showQr;
   final TextStyle bodyStyle;
   final TextStyle subStyle;
 
@@ -43,7 +47,7 @@ class Admindashcard extends StatelessWidget {
                       Text(event.name, style: bodyStyle),
                       Text(
                         event.start_date == event.end_date
-                            ? "${event.start_time} - ${event.end_time}"
+                            ? "${event.start_time.substring(0,5)} - ${event.end_time.substring(0,5)}"
                             : "${event.start_date} - ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
@@ -51,14 +55,23 @@ class Admindashcard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     BorderButton(
                         height: 28,
-                        text: "Edit Event",
+                        text: "Edit",
                         onTap: edit,
                       ),
+                    BorderButton(
+                        height: 28,
+                        text: "Reserve",
+                        onTap: reserve,
+                      ),
+                    BorderButton(
+                      height: 28,
+                      text: "Show QR", 
+                      onTap: showQr)
                   ],
                 ),
               ],

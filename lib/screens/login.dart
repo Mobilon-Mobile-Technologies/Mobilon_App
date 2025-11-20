@@ -1,4 +1,4 @@
-// import 'package:admin_page/screens/dashboard.dart';
+// import 'package:eventa/screens/dashboard.dart';
 // import 'package:flutter/material.dart';
 // import 'package:supabase_flutter/supabase_flutter.dart';
 

@@ -3,7 +3,7 @@
 
 //QR Page Screen
 
-import 'package:admin_page/widgets/large_title_app_bar.dart';
+import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/gradient_line.dart';
@@ -59,53 +59,55 @@ class _QRPageState extends State<QRPage> {
           //Background image
           image: DecorationImage(image: AssetImage("assets/Background.png"),fit: BoxFit.cover)
         ),
-        child: Padding(
-          padding: EdgeInsets.all(meanSize/40),
-          child: ListView(
-
-            scrollDirection: Axis.vertical,
-            children: [
-              GradientBox(
-                child: 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                    width: meanSize/2,
-                    height: meanSize/2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        color: Colors.white,
-                        child: Center(
-                          child: ShaderMask(
-                            blendMode: BlendMode.srcATop,
-                            shaderCallback: (bounds) {
-                              return LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [Colors.black, Colors.deepPurple],
-                                tileMode: TileMode.clamp,
-                              ).createShader(bounds);
-                            },
-                            child: genQr(widget.event, meanSize/2),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(meanSize/40),
+            child: ListView(
+          
+              scrollDirection: Axis.vertical,
+              children: [
+                GradientBox(
+                  child: 
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                      width: meanSize/2,
+                      height: meanSize/2,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          color: Colors.white,
+                          child: Center(
+                            child: ShaderMask(
+                              blendMode: BlendMode.srcATop,
+                              shaderCallback: (bounds) {
+                                return LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [Colors.black, Colors.deepPurple],
+                                  tileMode: TileMode.clamp,
+                                ).createShader(bounds);
+                              },
+                              child: genQr(widget.event, meanSize/2),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    ),
-              
-                    GradLine(),
-                    Text(widget.event.name,style: bodyStyle,),
-                    Text(widget.event.location,style: subStyle,),
-                    Text(widget.event.start_date,style: subStyle,),
-                    GradLine(),
-                    Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182)))
-                  ]
-                )
-                )
-            ]
-          )
+                      ),
+                
+                      GradLine(),
+                      Text(widget.event.name,style: bodyStyle,),
+                      Text(widget.event.location,style: subStyle,),
+                      Text(widget.event.start_date,style: subStyle,),
+                      GradLine(),
+                      Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182)))
+                    ]
+                  )
+                  )
+              ]
+            )
+          ),
         )
       )
     );

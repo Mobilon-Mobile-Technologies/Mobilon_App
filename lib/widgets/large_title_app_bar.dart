@@ -17,14 +17,16 @@ class LargeAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(
+        color: Colors.white, //change your color here
+      ),
       automaticallyImplyLeading: true,
       toolbarHeight: screenHeight*0.2,
       centerTitle: false,
       backgroundColor: Colors.black.withAlpha(80),
       title: 
-      BackdropFilter(
-        //Blur behind
-        filter: ImageFilter.blur(sigmaX: 25,sigmaY: 25),
+      Padding(
+        padding: const EdgeInsets.all(35),
         child: Text(title,style: titleStyle,),
       ),
     );

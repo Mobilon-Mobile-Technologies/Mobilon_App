@@ -3,9 +3,9 @@
 
 //QR Page Screen
 
-import 'package:admin_page/widgets/border_button.dart';
-import 'package:admin_page/widgets/gradient_box.dart';
-import 'package:admin_page/widgets/gradient_line.dart';
+import 'package:eventa/widgets/border_button.dart';
+import 'package:eventa/widgets/gradient_box.dart';
+import 'package:eventa/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/glowing_icon_button.dart';

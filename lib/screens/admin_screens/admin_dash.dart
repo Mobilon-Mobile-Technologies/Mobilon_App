@@ -1,8 +1,9 @@
-import 'package:admin_page/functions/get_events.dart';
-import 'package:admin_page/models/events.dart';
-import 'package:admin_page/widgets/admin/admindashcard.dart';
-import 'package:admin_page/widgets/large_title_app_bar.dart';
+import 'package:eventa/functions/get_events.dart';
+import 'package:eventa/models/events.dart';
+import 'package:eventa/widgets/admin/admindashcard.dart';
+import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:eventa/functions/reserve.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,9 +17,12 @@ class AdminDash extends StatefulWidget {
 
 class _AdminDashState extends State<AdminDash> {
   final List<bool> highlight = [true, false, false];
-
   List<Events> events = [];
   List<String> reservedEvents = [];
+  bool isLoading = false;
+  bool hasMore = true;
+  int currentOffset = 0;
+  final ScrollController _scrollController = ScrollController();
 
   SvgPicture iconGet(String name) {
     return SvgPicture.asset('assets/Icons/$name.svg');
@@ -28,14 +32,60 @@ class _AdminDashState extends State<AdminDash> {
   void initState() {
     super.initState();
     _loadEvents();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (!_scrollController.hasClients) return;
+
+    final thresholdReached = _scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.95;
+
+    if (thresholdReached) {
+      _loadMoreEvents();
+    }
   }
 
   Future<void> _loadEvents() async {
-    final fetchedEvents = await getEvents();
+    if (isLoading) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final fetchedEvents = await getEvents(0, 100);
     final fetchedReserved = await getReservedEvents();
+
     setState(() {
       events = fetchedEvents;
       reservedEvents = fetchedReserved;
+      currentOffset = fetchedEvents.length;
+      hasMore = fetchedEvents.length == 100;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _loadMoreEvents() async {
+    if (isLoading || !hasMore) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final fetchedEvents = await getEvents(currentOffset, 100);
+
+    setState(() {
+      events.addAll(fetchedEvents);
+      currentOffset += fetchedEvents.length;
+      hasMore = fetchedEvents.length == 100;
+      isLoading = false;
     });
   }
 
@@ -58,7 +108,7 @@ class _AdminDashState extends State<AdminDash> {
 
     return Scaffold(
       appBar: LargeAppBar(
-      screenHeight: screenHeight, title: "Events", titleStyle: titleStyle),
+          screenHeight: screenHeight, title: "Events", titleStyle: titleStyle),
       extendBodyBehindAppBar: false,
       extendBody: true,
       floatingActionButton: Padding(
@@ -96,22 +146,51 @@ class _AdminDashState extends State<AdminDash> {
                 label: const Text('Scan QR Codes'),
               ),
               Expanded(
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    for (Events i in events)
-                      Padding(
-                        padding: EdgeInsets.all(6),
-                        child: Admindashcard(
-                          event: i,
-                          bodyStyle: bodyStyle,
-                          subStyle: subStyle,
-                          edit: () {
-                            Navigator.pushNamed(context, '/edit_event', arguments: i);
-                          },
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: events.length + (hasMore ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == events.length) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
+                      );
+                    }
+
+                    final event = events[index];
+                    return Padding(
+                      padding: EdgeInsets.all(6),
+                      child: Admindashcard(
+                        event: event,
+                        bodyStyle: bodyStyle,
+                        subStyle: subStyle,
+                        edit: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/edit_event',
+                            arguments: event,
+                          );
+                        },
+                        reserve: () async {
+                          reserveEvent(event.events_id);
+                          await getReservedEvents();
+                          setState(() => _loadEvents());
+                        },
+                        showQr: () => Navigator.pushNamed(
+                          context, '/Dashboard/qr', arguments: event
                       ),
-                  ],
+                      )
+                    );
+                  },
                 ),
               ),
             ],

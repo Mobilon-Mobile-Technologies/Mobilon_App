@@ -1,5 +1,6 @@
-import 'package:admin_page/functions/event_db.dart';
-import 'package:admin_page/models/events.dart';
+import 'package:eventa/functions/event_db.dart';
+import 'package:eventa/models/events.dart';
+import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -22,6 +23,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   DateTime? endDate;
   TimeOfDay? endTime;
   
+  
   @override
   void dispose() {
     // Clean up controllers
@@ -34,27 +36,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.sizeOf(context).height;
+      TextStyle titleStyle = const TextStyle(
+      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back, color: Colors.blue),
-            );
-          },
-        ),
-        backgroundColor: const Color.fromARGB(23, 0, 0, 0),
-        elevation: 0,
-        title: const Text(
-          "Create Event",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
+      appBar: LargeAppBar(screenHeight: screenHeight, title: "Create Event", titleStyle: titleStyle),
       body: Stack(
         children: [
           Container(
@@ -73,13 +60,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 150),
                   Align(
                     alignment: Alignment.topCenter,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Image.asset(
-                        "assets/Background.png",
+                        "assets/FlutterImg.png",
                         height: 80,
                         width: 80,
                         fit: BoxFit.cover,

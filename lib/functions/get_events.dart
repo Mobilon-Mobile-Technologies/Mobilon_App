@@ -1,9 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:admin_page/models/events.dart';
+import 'package:eventa/models/events.dart';
 
 final supabase = Supabase.instance.client;
 
-Future<List<Events>> getEvents() async {
+Future<List<Events>> getEvents(offset, limit) async {
 
   if (supabase.auth.currentUser == null) {
     return [];
@@ -11,9 +11,11 @@ Future<List<Events>> getEvents() async {
 
   final list = await supabase
       .from('events')
-      .select('*');
-  
-  print('Fetched data: $list'); // Debug print
+      .select('*')
+      .gt('start_date', DateTime.now().toIso8601String().substring(0,10))
+      .range(offset, offset+limit-1)
+      .order('start_date',ascending: true);
+        
   
   if (list.isNotEmpty) {
     return list
@@ -44,7 +46,6 @@ Future<List<String>> getReservedEvents() async {
       .select('event_id')
       .eq('user_id', supabase.auth.currentUser!.id).eq('has_entered', false);
 
-  print('Fetched reserved events: $list'); // Debug print
 
   if (list.isEmpty) {
     return [];

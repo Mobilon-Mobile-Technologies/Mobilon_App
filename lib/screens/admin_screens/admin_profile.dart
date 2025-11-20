@@ -1,7 +1,7 @@
-// import 'package:admin_page/screens/admin_page.dart';
-// import 'package:admin_page/widgets/dashboardcard.dart';
-// import 'package:admin_page/widgets/glowing_icon_button.dart';
-// import 'package:admin_page/widgets/large_title_app_bar.dart';
+// import 'package:eventa/screens/eventa.dart';
+// import 'package:eventa/widgets/dashboardcard.dart';
+// import 'package:eventa/widgets/glowing_icon_button.dart';
+// import 'package:eventa/widgets/large_title_app_bar.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
 

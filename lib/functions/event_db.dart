@@ -1,4 +1,4 @@
-import 'package:admin_page/models/events.dart';
+import 'package:eventa/models/events.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;

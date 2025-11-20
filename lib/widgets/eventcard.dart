@@ -1,6 +1,6 @@
-import 'package:admin_page/widgets/border_button.dart';
-import 'package:admin_page/widgets/gradient_box.dart';
-import 'package:admin_page/widgets/gradient_line.dart';
+import 'package:eventa/widgets/border_button.dart';
+import 'package:eventa/widgets/gradient_box.dart';
+import 'package:eventa/widgets/gradient_line.dart';
 import 'package:flutter/material.dart';
 import '../models/events.dart';
 
@@ -43,7 +43,7 @@ class EventCard extends StatelessWidget {
                       ),
                       Text(
                         event.start_date == event.end_date
-                            ? "${event.start_time} - ${event.end_time}"
+                            ? "${event.start_date} ${event.start_time.substring(0,5)} - ${event.end_time.substring(0,5)}"
                             : "${event.start_date} - ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
@@ -51,10 +51,10 @@ class EventCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    BorderButton(height: 28,text: "Details", onTap: () => print("a")),
+                    BorderButton(height: 28,text: "Details", onTap: () => Navigator.pushNamed(context, '/event_details', arguments: event)),
                     BorderButton(height: 28,text: "Reserve", onTap: () => reserve()),
                   ],
                 ),

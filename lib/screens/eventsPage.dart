@@ -1,11 +1,12 @@
-import 'package:admin_page/constants/style.dart';
-import 'package:admin_page/models/events.dart';
-import 'package:admin_page/widgets/eventcard.dart';
-import 'package:admin_page/widgets/large_title_app_bar.dart';
+import 'package:eventa/constants/style.dart';
+import 'package:eventa/models/events.dart';
+import 'package:eventa/widgets/eventcard.dart';
+import 'package:eventa/widgets/gradient_line.dart';
+import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:admin_page/functions/reserve.dart';
-import 'package:admin_page/functions/get_events.dart';
+import 'package:eventa/functions/reserve.dart';
+import 'package:eventa/functions/get_events.dart';
 
 class EventsPage extends StatefulWidget {
   final String userType;
@@ -20,20 +21,64 @@ class _EventsPageState extends State<EventsPage> {
   final supabase = Supabase.instance.client;
   List<Events> events = [];
   List<String> reservedEvents = [];
+  bool isLoading = false;
+  bool atLimit = false;
+  int offset = 0;
+  final ScrollController _scrollController = ScrollController();
 
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      _loadMoreEvents();
+    }
+  }
+
+  Future<void> _loadMoreEvents() async {
+    if (isLoading || !atLimit) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final fetchedEvents = await getEvents(offset, 100);
+    
+    setState(() {
+      events.addAll(fetchedEvents);
+      offset += fetchedEvents.length;
+      atLimit = fetchedEvents.length == 100;
+      isLoading = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _loadEvents();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadEvents() async {
-    final fetchedEvents = await getEvents();
+    if (isLoading) return;
+    
+    setState(() {
+      isLoading = true;
+    });
+
+    final fetchedEvents = await getEvents(0, 100);
     final fetchedReserved = await getReservedEvents();
+    
     setState(() {
       events = fetchedEvents;
       reservedEvents = fetchedReserved;
+      offset = fetchedEvents.length;
+      atLimit = fetchedEvents.length == 5;
+      isLoading = false;
     });
   }
 
@@ -45,30 +90,51 @@ class _EventsPageState extends State<EventsPage> {
       appBar: LargeAppBar(
         screenHeight: screenHeight, 
         title: "Events", 
-        titleStyle: titleStyle.copyWith(fontSize: screenHeight*0.07)
+        titleStyle: titleStyle.copyWith(fontSize: 45)
       ),
       extendBodyBehindAppBar: true,
       extendBody: true,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/Background.png"),
-            fit: BoxFit.cover,
-          )
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(screenHeight*0.001),
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: [
-              
-              for (var i in events)
-              if (!(reservedEvents.contains(i.events_id))) EventCard(event: i, bodyStyle: bodyStyle, subStyle: subStyle.copyWith(fontSize: screenHeight*0.015), reserve: () async {
-              reserveEvent(i.events_id);
-              await getReservedEvents();
-              setState(() => _loadEvents());
-            },)
-            ]
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/Background.png"),
+              fit: BoxFit.cover,
+            )
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(screenHeight*0.001),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: events.length + 1,
+              itemBuilder: (context, index) {
+                if (index == events.length) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: atLimit 
+                        ? const CircularProgressIndicator()
+                        : GradLine()
+                    ),
+                  );
+                }
+        
+                final event = events[index];
+                if (!(reservedEvents.contains(event.events_id))) {
+                  return EventCard(
+                    event: event,
+                    bodyStyle: bodyStyle,
+                    subStyle: subStyle.copyWith(fontSize: screenHeight*0.015),
+                    reserve: () async {
+                      reserveEvent(event.events_id);
+                      await getReservedEvents();
+                      setState(() => _loadEvents());
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),

@@ -1,10 +1,10 @@
-import 'package:admin_page/screens/eventsPage.dart';
+import 'package:eventa/screens/eventsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dashboard.dart';
 import 'profile_page.dart';
 import 'admin_screens/admin_dash.dart';
-import 'package:admin_page/widgets/glowing_icon_button.dart';
+import 'package:eventa/widgets/glowing_icon_button.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   final String userType;
@@ -17,7 +17,7 @@ class BottomNavigationPage extends StatefulWidget {
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int _selectedIndex = 0;
-  List<bool> highlight = [false, false, true];
+  List<bool> highlight = [true, false, false];
   double meanSize = 0;
   double screenHeight = 0;
   TextStyle titleStyle = const TextStyle(

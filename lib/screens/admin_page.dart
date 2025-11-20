@@ -3,9 +3,9 @@
 
 // //Admin Page Screen
 
-// import 'package:admin_page/screens/admin_screens/admin_dash.dart';
-// import 'package:admin_page/screens/admin_screens/create_event.dart';
-// import 'package:admin_page/screens/admin_screens/edit_event.dart';
+// import 'package:eventa/screens/admin_screens/admin_dash.dart';
+// import 'package:eventa/screens/admin_screens/create_event.dart';
+// import 'package:eventa/screens/admin_screens/edit_event.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 // import '../widgets/border_button.dart';

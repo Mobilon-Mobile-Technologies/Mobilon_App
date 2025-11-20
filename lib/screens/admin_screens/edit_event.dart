@@ -1,5 +1,5 @@
-import 'package:admin_page/functions/event_db.dart';
-import 'package:admin_page/models/events.dart';
+import 'package:eventa/functions/event_db.dart';
+import 'package:eventa/models/events.dart';
 import 'package:flutter/material.dart';
 
 class EditEventScreen extends StatefulWidget {
@@ -52,14 +52,6 @@ class _EditEventScreenState extends State<EditEventScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back, color: Colors.blue),
-            );
-          },
-        ),
         backgroundColor: const Color.fromARGB(23, 0, 0, 0),
         elevation: 0,
         title: const Text(

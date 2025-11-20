@@ -118,7 +118,7 @@ class _QRReservationPageState extends State<QRReservationPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Icon(Icons.info, color: Colors.blue, size: 48),
+          title: const Icon(Icons.info, color: Colors.deepPurple, size: 48),
           content: Text(message, textAlign: TextAlign.center),
           actions: [
             TextButton(

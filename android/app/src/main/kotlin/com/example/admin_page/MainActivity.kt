@@ -1,4 +1,4 @@
-package com.example.admin_page
+package com.example.eventa
 
 import io.flutter.embedding.android.FlutterActivity
 
