@@ -2,10 +2,11 @@
 import 'package:eventa/functions/reserve.dart';
 import 'package:eventa/screens/admin_screens/admin_dash.dart';
 import 'package:eventa/widgets/gradient_box.dart';
+import 'package:eventa/widgets/gradient_line.dart';
 import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../constants/isLoggedInAsAdmin.dart' as AdminStatus; // Add this import
+import '../constants/is_logged_in_as_admin.dart' as AdminStatus; // Add this import
 
 class ProfilePage extends StatefulWidget {
   final String userType;
@@ -130,12 +131,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         buildProfileField('Enrollment Number', enrolment),
-                        buildDivider(),
+                        GradLine(),
                         buildProfileField(
                             'Email', email),
-                        buildDivider(),
+                        GradLine(),
                         buildProfileField('Year', year),
-                        buildDivider(),
+                        GradLine(),
                         buildProfileField("User Type", widget.userType)
                         // buildProfileField('DOB', '01/01/2001'),
                         // buildDivider(),

@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'models/events.dart';
 import 'package:app_links/app_links.dart';
-import 'constants/isLoggedInAsAdmin.dart' as AdminStatus;
+import 'constants/is_logged_in_as_admin.dart' as AdminStatus;
 import 'screens/admin_screens/qr_scanner_entry.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

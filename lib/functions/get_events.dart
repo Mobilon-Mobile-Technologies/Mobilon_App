@@ -11,7 +11,7 @@ Future<List<Events>> getEvents(offset, limit) async {
 
   final list = await supabase
       .from('events')
-      .select('*')
+      .select('*,reservations(count)')
       .gt('start_date', DateTime.now().toIso8601String().substring(0,10))
       .range(offset, offset+limit-1)
       .order('start_date',ascending: true);
@@ -19,6 +19,11 @@ Future<List<Events>> getEvents(offset, limit) async {
   
   if (list.isNotEmpty) {
     return list
+        // .where((event) {
+        //   final capacity = int.tryParse(event["capacity"].toString()) ?? 0;
+        //   final reservationCount = event['reservations']?[0]?['count'] ?? 0;
+        //   return capacity > reservationCount;
+        // })
         .map((event) => Events(
               event["event_id"].toString(),
               event["name"].toString(),
@@ -52,6 +57,3 @@ Future<List<String>> getReservedEvents() async {
   }
   return list.map((item) => item['event_id'] as String).toList();
   }
-
-
-

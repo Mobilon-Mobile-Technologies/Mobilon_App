@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../functions/reserve.dart';
-import '../../constants/isLoggedInAsAdmin.dart' as AdminStatus;
+import '../../constants/is_logged_in_as_admin.dart' as AdminStatus;
 
 class QRScannerPage extends StatefulWidget {
   const QRScannerPage({super.key});

@@ -186,7 +186,7 @@ class _AdminDashState extends State<AdminDash> {
                           setState(() => _loadEvents());
                         },
                         showQr: () => Navigator.pushNamed(
-                          context, '/Dashboard/reserve_qr', arguments: event
+                          context, '/event_details', arguments: event
                       ),
                       )
                     );
