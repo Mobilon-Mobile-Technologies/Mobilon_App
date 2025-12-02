@@ -3,6 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:eventa/models/events.dart';
 import 'package:eventa/functions/reserve.dart';
 
+class TeamMember {
+  final TextEditingController nameController;
+  final TextEditingController emailController;
+
+  TeamMember()
+      : nameController = TextEditingController(),
+        emailController = TextEditingController();
+
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+  }
+
+  Map<String, String> toMap() {
+    return {
+      'name': nameController.text.trim(),
+      'email': emailController.text.trim(),
+    };
+  }
+}
+
 class TeamRegistrationScreen extends StatefulWidget {
   final Events event;
 
@@ -14,24 +35,24 @@ class TeamRegistrationScreen extends StatefulWidget {
 
 class _TeamRegistrationScreenState extends State<TeamRegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
-  late List<TextEditingController> emailControllers;
+  late List<TeamMember> teamMembers;
   bool isSubmitting = false;
 
   @override
   void initState() {
     super.initState();
-    // Create controllers for team_size - 1 (excluding the current user)
+    // Create team members for team_size - 1 (excluding the current user)
     final teamMembersNeeded = widget.event.team_size - 1;
-    emailControllers = List.generate(
+    teamMembers = List.generate(
       teamMembersNeeded,
-      (index) => TextEditingController(),
+      (index) => TeamMember(),
     );
   }
 
   @override
   void dispose() {
-    for (var controller in emailControllers) {
-      controller.dispose();
+    for (var member in teamMembers) {
+      member.dispose();
     }
     super.dispose();
   }
@@ -44,14 +65,14 @@ class _TeamRegistrationScreenState extends State<TeamRegistrationScreen> {
     });
 
     try {
-      // Collect all team member emails
-      List<String> teamEmails = emailControllers
-          .map((controller) => controller.text.trim())
-          .where((email) => email.isNotEmpty)
+      // Collect all team member data
+      List<Map<String, String>> teamData = teamMembers
+          .map((member) => member.toMap())
+          .where((data) => data['email']!.isNotEmpty)
           .toList();
 
       // Reserve event with team
-      await reserveEventWithTeam(widget.event.events_id, teamEmails);
+      await reserveEventWithTeam(widget.event.events_id, teamData);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -133,7 +154,7 @@ class _TeamRegistrationScreenState extends State<TeamRegistrationScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                'Enter team member emails:',
+                                'Enter team member details:',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -150,47 +171,108 @@ class _TeamRegistrationScreenState extends State<TeamRegistrationScreen> {
                               ),
                               const SizedBox(height: 16),
                               ...List.generate(
-                                emailControllers.length,
+                                teamMembers.length,
                                 (index) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
-                                  child: TextFormField(
-                                    controller: emailControllers[index],
-                                    style: const TextStyle(color: Colors.white),
-                                    decoration: InputDecoration(
-                                      labelText: 'Team Member ${index + 1} Email',
-                                      labelStyle: const TextStyle(color: Colors.white70),
-                                      hintText: 'example@college.edu',
-                                      hintStyle: const TextStyle(color: Colors.white38),
-                                      filled: true,
-                                      fillColor: Colors.white.withOpacity(0.1),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: const BorderSide(color: Colors.white24),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: const BorderSide(color: Colors.white24),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: const BorderSide(color: Colors.blue, width: 2),
-                                      ),
-                                      prefixIcon: const Icon(Icons.email, color: Colors.white70),
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.05),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.white12),
                                     ),
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) {
-                                      if (value == null || value.trim().isEmpty) {
-                                        return 'Please enter an email';
-                                      }
-                                      if (value.length > 50) {
-                                        return 'Email too long, please try a a shorter email';
-                                      }
-                                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                          .hasMatch(value)) {
-                                        return 'Please enter a valid email';
-                                      }
-                                      return null;
-                                    },
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Team Member ${index + 1}',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        // Name field
+                                        TextFormField(
+                                          controller: teamMembers[index].nameController,
+                                          style: const TextStyle(color: Colors.white),
+                                          decoration: InputDecoration(
+                                            labelText: 'Name',
+                                            labelStyle: const TextStyle(color: Colors.white70),
+                                            hintText: 'John Doe',
+                                            hintStyle: const TextStyle(color: Colors.white38),
+                                            filled: true,
+                                            fillColor: Colors.white.withOpacity(0.1),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Colors.white24),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Colors.white24),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            prefixIcon: const Icon(Icons.person, color: Colors.white70),
+                                          ),
+                                          keyboardType: TextInputType.name,
+                                          textCapitalization: TextCapitalization.words,
+                                          validator: (value) {
+                                            if (value == null || value.trim().isEmpty) {
+                                              return 'Please enter a name';
+                                            }
+                                            if (value.length > 50) {
+                                              return 'Name too long';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        const SizedBox(height: 12),
+                                        // Email field
+                                        TextFormField(
+                                          controller: teamMembers[index].emailController,
+                                          style: const TextStyle(color: Colors.white),
+                                          decoration: InputDecoration(
+                                            labelText: 'Email',
+                                            labelStyle: const TextStyle(color: Colors.white70),
+                                            hintText: 'example@college.edu',
+                                            hintStyle: const TextStyle(color: Colors.white38),
+                                            filled: true,
+                                            fillColor: Colors.white.withOpacity(0.1),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Colors.white24),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Colors.white24),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Colors.blue, width: 2),
+                                            ),
+                                            prefixIcon: const Icon(Icons.email, color: Colors.white70),
+                                          ),
+                                          keyboardType: TextInputType.emailAddress,
+                                          validator: (value) {
+                                            if (value == null || value.trim().isEmpty) {
+                                              return 'Please enter an email';
+                                            }
+                                            if (value.length > 50) {
+                                              return 'Email too long';
+                                            }
+                                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                                .hasMatch(value)) {
+                                              return 'Please enter a valid email';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -198,32 +280,37 @@ class _TeamRegistrationScreenState extends State<TeamRegistrationScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: isSubmitting ? null : _submitTeam,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(125, 0, 0, 0),
-                            disabledBackgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: isSubmitting ? null : _submitTeam,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(125, 0, 0, 0),
+                              disabledBackgroundColor: Colors.grey,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                side: const BorderSide(color: Colors.white24, width: 1),
+                              ),
                             ),
+                            child: isSubmitting
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Register Team',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                           ),
-                          child: isSubmitting
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : const Text(
-                                  'Register Team',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
                         ),
                       ],
                     ),
