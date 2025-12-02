@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../functions/reserve.dart';
 import '../../constants/is_logged_in_as_admin.dart' as AdminStatus;
@@ -11,7 +12,9 @@ class QRScannerPage extends StatefulWidget {
 }
 
 class _QRScannerPageState extends State<QRScannerPage> {
-  MobileScannerController cameraController = MobileScannerController();
+  final MobileScannerController cameraController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+  );
   bool isProcessing = false;
   String? lastScannedCode;
 
@@ -156,29 +159,16 @@ class _QRScannerPageState extends State<QRScannerPage> {
         title: const Text('Scan QR Code'),
         backgroundColor: Colors.black87,
         actions: [
-          IconButton(
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.torchState,
-              builder: (context, state, child) {
-                switch (state) {
-                  case TorchState.off:
-                    return const Icon(Icons.flash_off, color: Colors.grey);
-                  case TorchState.on:
-                    return const Icon(Icons.flash_on, color: Colors.yellow);
-                }
-              },
+          if (!kIsWeb) // Torch not supported on web
+            IconButton(
+              icon: const Icon(Icons.flash_on),
+              onPressed: () => cameraController.toggleTorch(),
             ),
-            onPressed: () => cameraController.toggleTorch(),
-          ),
-          IconButton(
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.cameraFacingState,
-              builder: (context, state, child) {
-                return const Icon(Icons.camera_front);
-              },
+          if (!kIsWeb) // Camera switching may not work on web
+            IconButton(
+              icon: const Icon(Icons.camera_front),
+              onPressed: () => cameraController.switchCamera(),
             ),
-            onPressed: () => cameraController.switchCamera(),
-          ),
         ],
       ),
       body: Stack(
@@ -203,10 +193,12 @@ class _QRScannerPageState extends State<QRScannerPage> {
                 children: [
                   const Icon(Icons.qr_code_scanner, color: Colors.white, size: 32),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Point camera at QR code to mark entry',
+                  Text(
+                    kIsWeb 
+                      ? 'Allow camera access and point at QR code'
+                      : 'Point camera at QR code to mark entry',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   if (isProcessing) ...[
                     const SizedBox(height: 8),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../functions/reserve.dart';
+import '../functions/get_events.dart';
+import '../screens/team_registeration.dart';
 
 class QRReservationPage extends StatefulWidget {
   const QRReservationPage({super.key});
@@ -10,7 +13,9 @@ class QRReservationPage extends StatefulWidget {
 }
 
 class _QRReservationPageState extends State<QRReservationPage> {
-  MobileScannerController cameraController = MobileScannerController();
+  final MobileScannerController cameraController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+  );
   bool isProcessing = false;
   String? lastScannedCode;
 
@@ -34,19 +39,45 @@ class _QRReservationPageState extends State<QRReservationPage> {
     if (eventId != null) {
       try {
         // Check if already reserved
-        final isReserved = await checkIfReserved(eventId);
+        final canReserve = await checkIfReserved(eventId);
         
-        if (!isReserved) {
-          // Already reserved
+        if (!canReserve) {
+          // Already reserved (checkIfReserved returns false when already reserved)
           if (mounted) {
             _showInfoDialog('You have already reserved this event!');
           }
         } else {
-          // Not reserved yet, make reservation
-          reserveEvent(eventId);
+          // Fetch event details to check team size
+          final event = await getEventById(eventId);
           
-          if (mounted) {
-            _showSuccessDialog('Event reserved successfully!');
+          if (event.team_size > 1) {
+            // Navigate to team registration screen
+            if (mounted) {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TeamRegistrationScreen(event: event),
+                ),
+              );
+              
+              if (result == true && mounted) {
+                _showSuccessDialog('Team registered successfully!');
+              } else if (mounted) {
+                // User cancelled or error occurred
+                setState(() {
+                  isProcessing = false;
+                  lastScannedCode = null;
+                });
+                return;
+              }
+            }
+          } else {
+            // Single reservation (reserveEvent is void, doesn't return anything)
+            reserveEvent(eventId);
+            
+            if (mounted) {
+              _showSuccessDialog('Event reserved successfully!');
+            }
           }
         }
       } catch (e) {
@@ -159,29 +190,16 @@ class _QRReservationPageState extends State<QRReservationPage> {
         title: const Text('Scan to Reserve Event'),
         backgroundColor: Colors.black87,
         actions: [
-          IconButton(
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.torchState,
-              builder: (context, state, child) {
-                switch (state) {
-                  case TorchState.off:
-                    return const Icon(Icons.flash_off, color: Colors.grey);
-                  case TorchState.on:
-                    return const Icon(Icons.flash_on, color: Colors.yellow);
-                }
-              },
+          if (!kIsWeb) // Torch not supported on web
+            IconButton(
+              icon: const Icon(Icons.flash_on),
+              onPressed: () => cameraController.toggleTorch(),
             ),
-            onPressed: () => cameraController.toggleTorch(),
-          ),
-          IconButton(
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.cameraFacingState,
-              builder: (context, state, child) {
-                return const Icon(Icons.camera_front);
-              },
+          if (!kIsWeb) // Camera switching may not work on web
+            IconButton(
+              icon: const Icon(Icons.camera_front),
+              onPressed: () => cameraController.switchCamera(),
             ),
-            onPressed: () => cameraController.switchCamera(),
-          ),
         ],
       ),
       body: Stack(
@@ -206,10 +224,12 @@ class _QRReservationPageState extends State<QRReservationPage> {
                 children: [
                   const Icon(Icons.qr_code_scanner, color: Colors.white, size: 32),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Scan event QR code to make a reservation',
+                  Text(
+                    kIsWeb 
+                      ? 'Allow camera access and scan event QR code'
+                      : 'Scan event QR code to make a reservation',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   if (isProcessing) ...[
                     const SizedBox(height: 8),

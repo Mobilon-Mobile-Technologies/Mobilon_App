@@ -19,12 +19,13 @@ class EventCard extends StatelessWidget {
       child: GradientBox(
         child: Column(
           children: [
+            if (event.team_size>1) Text("Requires teams of ${event.team_size}",style: bodyStyle.copyWith(color: Colors.deepPurple),),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                "assets/FlutterImg.png",
+                "assets/crowd_img_1.jpg",
                 fit: BoxFit.cover,
-                height: 144, // ✅ Fixed height
+                height: 160, // ✅ Fixed height
               ),
             ),
             GradLine(),

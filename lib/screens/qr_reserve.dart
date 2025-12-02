@@ -23,6 +23,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 
  //Gradient taken from figma
   List<Color> radientGrad = [Color(0xFF9DE8EE),Color(0xFFFA7C0B),Color(0xFF9F8CED)];
+  List<String> teamEmails = [];
 
   //Function to get icon from svg picture
   SvgPicture iconGet(String name){
@@ -101,7 +102,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       Text(widget.event.location,style: subStyle,),
                       Text("From ${widget.event.start_date} at ${widget.event.start_time.substring(0,5)}\nto ${widget.event.end_date} at ${widget.event.end_time.substring(0,5)}",style: subStyle,),
                       GradLine(),
-                      Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182)))
+                      Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182))),
                     ]
                   )
                   )

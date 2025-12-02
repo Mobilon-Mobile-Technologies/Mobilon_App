@@ -17,6 +17,7 @@ Future<String?> makeEvent(Events event) async {
           'start_time': event.start_time,
           'end_time': event.end_time,
           'capacity': event.capacity,
+          'team_size': event.team_size,
         })
         .select()
         .single();
@@ -39,5 +40,6 @@ Future<void> updateEvent(Events event) async {
     'start_time': event.start_time,
     'end_time': event.end_time,
     'capacity': event.capacity,
+    'team_size': event.team_size,
   }).eq('event_id', event.events_id);
 }

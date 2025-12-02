@@ -8,6 +8,7 @@ class Events {
   String location;
   String description;
   String capacity;
+  int team_size;
 
  Events(
     this.events_id,
@@ -19,6 +20,7 @@ class Events {
     this.location,
     this.description,
     this.capacity,
+    this.team_size,
   );
 
 

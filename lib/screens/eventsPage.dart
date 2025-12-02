@@ -1,5 +1,6 @@
 import 'package:eventa/constants/style.dart';
 import 'package:eventa/models/events.dart';
+import 'package:eventa/screens/team_registeration.dart';
 import 'package:eventa/widgets/eventcard.dart';
 import 'package:eventa/widgets/gradient_line.dart';
 import 'package:eventa/widgets/large_title_app_bar.dart';
@@ -126,9 +127,26 @@ class _EventsPageState extends State<EventsPage> {
                     bodyStyle: bodyStyle,
                     subStyle: subStyle.copyWith(fontSize: screenHeight*0.015),
                     reserve: () async {
-                      reserveEvent(event.events_id);
-                      await getReservedEvents();
-                      setState(() => _loadEvents());
+                      // Check if team event
+                      if (event.team_size > 1) {
+                        // Navigate to team registration screen
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TeamRegistrationScreen(event: event),
+                          ),
+                        );
+                        
+                        // Refresh if registration was successful
+                        if (result == true) {
+                          setState(() => _loadEvents());
+                        }
+                      } else {
+                        // Single reservation
+                        reserveEvent(event.events_id);
+                        await getReservedEvents();
+                        setState(() => _loadEvents());
+                      }
                     },
                   );
                 }

@@ -1,13 +1,14 @@
 {
-    "name": "eventa",
-    "short_name": "eventa",
-    "start_url": ".",
+    "name": "Eventa",
+    "short_name": "Eventa",
+    "start_url": "/",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#000000",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Event management and reservation app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "permissions" : ["camera"],
     "icons": [
         {
             "src": "icons/Icon-192.png",

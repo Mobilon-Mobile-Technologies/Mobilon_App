@@ -24,9 +24,9 @@ class DashboardCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                "assets/FlutterImg.png",
+                "assets/crowd_img_1.jpg",
                 fit: BoxFit.cover,
-                height: 144, 
+                height: 160, 
               ),
             ),
             GradLine(),
@@ -45,8 +45,8 @@ class DashboardCard extends StatelessWidget {
                       ),
                       Text(
                         event.start_date == event.end_date
-                            ? "${event.start_time} - ${event.end_time}"
-                            : "${event.start_date} - ${event.end_date}",
+                            ? "On ${event.start_date} \n${event.start_time.substring(0,5)} to ${event.end_time.substring(0,5)}"
+                            : "${event.start_date} \nto ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),

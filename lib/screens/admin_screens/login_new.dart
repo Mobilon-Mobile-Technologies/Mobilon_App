@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,14 +13,19 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _loginWithMicrosoft(BuildContext context) async {
     try {
+      // Different redirect URLs for web vs mobile
+      final redirectTo = kIsWeb 
+        ? '${Uri.base.origin}/' // For web, redirect to your web app URL
+        : 'io.supabase.flutterquickstart://login-callback/'; // For mobile
+      
       await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.azure,
-        redirectTo: 'io.supabase.flutterquickstart://login-callback/',
-        authScreenLaunchMode: LaunchMode.externalApplication,
+        redirectTo: redirectTo,
+        authScreenLaunchMode: kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
         scopes: 'openid email profile User.Read'
       );
       
-      print('OAuth flow initiated...');
+      print('OAuth flow initiated for ${kIsWeb ? "web" : "mobile"}...');
       
     } catch (e) {
       print('Login error: $e');
@@ -57,41 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontFamily: 'Aldrich', color: Colors.white, fontSize: 20),
                   ),
                 ),
-                // Form(
-                //   key: _formKey,
-                //   child: Column(
-                //     children: [
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                //         child: TextFormField(
-                //           controller: _emailController,
-                //           decoration: const InputDecoration(
-                //             labelText: 'Email',
-                //             border: OutlineInputBorder(),
-                //           ),
-                //           validator: _validateEmail,
-                //           keyboardType: TextInputType.emailAddress,
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                //         child: TextFormField(
-                //           controller: _passwordController,
-                //           decoration: const InputDecoration(
-                //             labelText: 'Password',
-                //             border: OutlineInputBorder(),
-                //           ),
-                //           obscureText: true,
-                //         ),
-                //       ),
-                //       const SizedBox(height: 20),
-                //       ElevatedButton(
-                //         onPressed: _loginWithEmailAndPassword,
-                //         child: const Text('Login'),
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () => _loginWithMicrosoft(context),

@@ -8,11 +8,11 @@ import 'package:eventa/screens/dashboard.dart';
 import 'package:eventa/screens/admin_screens/edit_event.dart';
 import 'package:eventa/screens/qr_reserve.dart';
 import 'package:eventa/screens/leaderboard_page.dart';
-// import 'package:eventa/screens/login.dart';
 import 'package:eventa/screens/profile_page.dart';
 import 'package:eventa/screens/qr_page.dart';
 import 'package:eventa/screens/qr_scanner_reserve.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'models/events.dart';
 import 'package:app_links/app_links.dart';
@@ -22,6 +22,7 @@ import 'screens/admin_screens/qr_scanner_entry.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Supabase with the environment variables
   await Supabase.initialize(
@@ -29,9 +30,7 @@ void main() async {
     anonKey: SUPABASE_ANON_KEY,
   );
 
-
   runApp(const RSVPApp());
-
 }
 
 class RSVPApp extends StatefulWidget {
@@ -42,14 +41,31 @@ class RSVPApp extends StatefulWidget {
 }
 
 class _RSVPAppState extends State<RSVPApp> {
-  late AppLinks _appLinks;
+  late AppLinks? _appLinks;
 
   @override
   void initState() {
     super.initState();
-    _appLinks = AppLinks();
-    _initAppLinks();
+    
+    // Only initialize AppLinks for mobile platforms
+    if (!kIsWeb) {
+      _appLinks = AppLinks();
+      _initAppLinks();
+    } else {
+      _appLinks = null;
+      _initWebAuth();
+    }
+    
     _initAuthListener();
+  }
+
+  void _initWebAuth() {
+    // On web, Supabase automatically handles OAuth callbacks
+    // Just check if user is already logged in
+    final session = Supabase.instance.client.auth.currentSession;
+    if (session != null) {
+      print('Web: User already logged in: ${session.user.email}');
+    }
   }
 
   void _initAuthListener() {
@@ -66,33 +82,35 @@ class _RSVPAppState extends State<RSVPApp> {
           print('Admin status set to: ${AdminStatus.is_admin}');
           
           // Use the global navigator key instead of context
-          navigatorKey.currentState?.pushReplacementNamed('/');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            navigatorKey.currentState?.pushReplacementNamed('/');
+          });
         });
       }
     });
   }
 
   void _initAppLinks() {
-    _appLinks.uriLinkStream.listen((uri) {
+    if (_appLinks == null) return;
+    
+    _appLinks!.uriLinkStream.listen((uri) {
       print('Received deep link: $uri');
       
-      // Handle check-in deep links
+      
+      // Handle OAuth login callback
       if (uri.scheme == 'io.supabase.flutterquickstart' && uri.host == 'login-callback') {
-        // Handle OAuth login callback
         _handleOAuthCallback();
       }
-
     });
   }
 
-  void _handleOAuthCallback() {
-    // Check if widget is still mounted before using context
+  void _handleOAuthCallback() async {
     if (!mounted) return;
     
+    await Future.delayed(const Duration(milliseconds: 500));
     final session = Supabase.instance.client.auth.currentSession;
     if (session != null) {
       print('Login successful - User: ${session.user.email}');
-      // Navigate to main app
       Navigator.of(context).pushReplacementNamed('/');
     } else {
       print('OAuth callback received but no session found');
@@ -102,16 +120,35 @@ class _RSVPAppState extends State<RSVPApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey, // Add this line
+      navigatorKey: navigatorKey,
+      navigatorObservers: [DashboardPageState.routeObserver], // Add this
       debugShowCheckedModeBanner: false,
-      title: 'AdminPage',
+      title: 'Eventa',
       initialRoute: Supabase.instance.client.auth.currentSession != null ? '/' : '/login',
       routes: {
         '/': (context) => FutureBuilder<bool>(
           future: isAdmin(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/Eventa_transparent.png',
+                        width: 200,
+                        height: 200,
+                      ),
+                      const SizedBox(
+                        width: 100,
+                        height: 5,
+                        child: LinearProgressIndicator(),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             }
             return BottomNavigationPage(userType: snapshot.data == true ? 'Admin' : 'Student');
           },

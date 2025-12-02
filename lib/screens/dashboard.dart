@@ -14,16 +14,18 @@ class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key, required this.userType});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<DashboardPage> createState() => DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class DashboardPageState extends State<DashboardPage> with RouteAware {
   List<Events> events = [];
   List<String> reservedEvents = [];
   bool isLoading = false;
   bool hasMore = true;
   int currentOffset = 0;
   final ScrollController _scrollController = ScrollController();
+  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 
   @override
   void initState() {
@@ -31,9 +33,22 @@ class _DashboardPageState extends State<DashboardPage> {
     _loadEvents();
     _scrollController.addListener(_scrollListener);
   }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void didPopNext() {
+    // Called when returning to this screen from another screen
+    print('Returned to Dashboard - refreshing data');
+    _loadEvents();
+  }
 
   @override
   void dispose() {
+    routeObserver.unsubscribe(this);
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();

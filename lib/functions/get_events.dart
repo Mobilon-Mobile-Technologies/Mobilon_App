@@ -3,6 +3,36 @@ import 'package:eventa/models/events.dart';
 
 final supabase = Supabase.instance.client;
 
+Future<Events> getEventById(String id) async {
+
+  if (supabase.auth.currentUser == null) {
+    throw Exception('No user logged in');
+  }
+
+  final response = await supabase
+    .from('events')
+    .select('*')
+    .eq('event_id', id);
+
+  if (response.isNotEmpty) {
+    final event = response[0];
+    return Events(
+      event["event_id"].toString(),
+      event["name"].toString(),
+      event["start_date"],
+      event["start_time"],
+      event["end_date"],
+      event["end_time"],
+      event["location"],
+      event["description"],
+      event["capacity"].toString(),
+      event["team_size"] as int,
+    );
+  } else {
+    throw Exception('Event not found');
+  }
+}
+
 Future<List<Events>> getEvents(offset, limit) async {
 
   if (supabase.auth.currentUser == null) {
@@ -34,6 +64,7 @@ Future<List<Events>> getEvents(offset, limit) async {
                 event["location"],
                 event["description"],
                 event["capacity"].toString(),
+                event["team_size"] as int,
               ))
           .toList();
   } else {

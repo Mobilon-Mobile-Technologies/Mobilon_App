@@ -1,5 +1,7 @@
 import 'package:eventa/functions/event_db.dart';
 import 'package:eventa/models/events.dart';
+import 'package:eventa/widgets/border_button.dart';
+import 'package:eventa/widgets/gradient_box.dart';
 import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _capacityController = TextEditingController();
+  final TextEditingController _teamSizeController = TextEditingController();
   
   // DateTime variables to store selected dates and times
   DateTime? startDate;
@@ -38,7 +41,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
       TextStyle titleStyle = const TextStyle(
-      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20);
+      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: LargeAppBar(screenHeight: screenHeight, title: "Create Event", titleStyle: titleStyle),
@@ -52,9 +55,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               ),
             ),
           ),
-          Container(
-            color: Colors.black.withOpacity(0.3),
-          ),
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -64,31 +64,22 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
-                        "assets/FlutterImg.png",
-                        height: 80,
-                        width: 80,
+                        "assets/crowd_img_1.jpg",
+                        height: 150,
+                        width: 320,
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
+                  Text(
                     "Create Event",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: titleStyle.copyWith(fontSize: 24)
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                  GradientBox(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -103,65 +94,56 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         buildTextField("Description", maxLines: 3, controller: _descriptionController),
                         const SizedBox(height: 15),
                         buildTextField("Capacity", isNumeric: true, controller: _capacityController),
+                        const SizedBox(height: 15),
+                        buildTextField("Team Size", isNumeric: true, controller: _teamSizeController),
                       ],
                     ),
                   ),
                   const SizedBox(height: 15),
                   Align(
                     alignment: Alignment.center,
-                    child: SizedBox(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          // Format dates and times for the Events object
-                          String formattedStartDate = startDate != null ? 
-                              "${startDate!.year}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}" : 
-                              "";
-                          
-                          String formattedStartTime = startTime != null ? 
-                              "${startTime!.hour.toString().padLeft(2, '0')}:${startTime!.minute.toString().padLeft(2, '0')}" : 
-                              "";
-                          
-                          String formattedEndDate = endDate != null ? 
-                              "${endDate!.year}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}" : 
-                              "";
-                          
-                          String formattedEndTime = endTime != null ? 
-                              "${endTime!.hour.toString().padLeft(2, '0')}:${endTime!.minute.toString().padLeft(2, '0')}" : 
-                              "";
-                          
-                          // Create Events object with form data
-                          final newEvent = Events(
-                            "", // events_id will be generated by database
-                            _nameController.text,
-                            formattedStartDate,
-                            formattedStartTime,
-                            formattedEndDate,
-                            formattedEndTime,
-                            _locationController.text,
-                            _descriptionController.text,
-                            _capacityController.text,
-                          );
-                          
-                          // Call makeEvent function with the newly created Events object
-                          newEvent.events_id = (await makeEvent(newEvent))!;
-
-                          Navigator.pushReplacementNamed(context, '/event_details', arguments: newEvent);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(249, 0, 0, 1),
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: const BorderSide(color: Colors.white, width: 2),
-                          ),
-                        ),
-                        child: const Text(
-                          "Create the Event",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                    child: BorderButton(
+                      height: 35,
+                      text: "Create Event",
+                      onTap: () async {
+                        // Format dates and times for the Events object
+                        String formattedStartDate = startDate != null ? 
+                            "${startDate!.year}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}" : 
+                            "";
+                        
+                        String formattedStartTime = startTime != null ? 
+                            "${startTime!.hour.toString().padLeft(2, '0')}:${startTime!.minute.toString().padLeft(2, '0')}" : 
+                            "";
+                        
+                        String formattedEndDate = endDate != null ? 
+                            "${endDate!.year}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}" : 
+                            "";
+                        
+                        String formattedEndTime = endTime != null ? 
+                            "${endTime!.hour.toString().padLeft(2, '0')}:${endTime!.minute.toString().padLeft(2, '0')}" : 
+                            "";
+                        
+                        // Create Events object with form data
+                        final newEvent = Events(
+                          "", // events_id will be generated by database
+                          _nameController.text,
+                          formattedStartDate,
+                          formattedStartTime,
+                          formattedEndDate,
+                          formattedEndTime,
+                          _locationController.text,
+                          _descriptionController.text,
+                          _capacityController.text,
+                          int.tryParse(_teamSizeController.text) ?? 1,
+                        );
+                        
+                        // Call makeEvent function with the newly created Events object
+                        newEvent.events_id = (await makeEvent(newEvent))!;
+                                  
+                        Navigator.pushReplacementNamed(context, '/event_details', arguments: newEvent);
+                      },
                       ),
                     ),
-                  )
                 ],
               ),
             ),
@@ -203,7 +185,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       children: [
         Text(
           label,
-          style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16),
+          style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 16),
         ),
         const SizedBox(height: 8),
         Row(
@@ -254,9 +236,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               return Theme(
                 data: Theme.of(context).copyWith(
                   colorScheme: const ColorScheme.dark(
-                    primary: Colors.blue,
+                    primary: Colors.deepPurple,
                     onPrimary: Colors.white,
-                    surface: Colors.grey,
+                    surface: Colors.black,
                     onSurface: Colors.white,
                   ),
                 ),
@@ -283,9 +265,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               return Theme(
                 data: Theme.of(context).copyWith(
                   colorScheme: const ColorScheme.dark(
-                    primary: Colors.blue,
+                    primary: Colors.deepPurple,
                     onPrimary: Colors.white,
-                    surface: Colors.grey,
+                    surface: Colors.black,
                     onSurface: Colors.white,
                   ),
                 ),

@@ -10,6 +10,7 @@ import '../widgets/gradient_line.dart';
 import '../widgets/gradient_box.dart';
 import '../models/events.dart';
 import '../functions/make_qr.dart';
+import '../functions/get_team_members.dart';
 
 class QRPage extends StatefulWidget {
   const QRPage({super.key, required this.event});
@@ -23,12 +24,24 @@ class _QRPageState extends State<QRPage> {
  
  //Gradient taken from figma
   List<Color> radientGrad = [Color(0xFF9DE8EE),Color(0xFFFA7C0B),Color(0xFF9F8CED)];
+  List<String> teamEmails = [];
 
   //Function to get icon from svg picture
   SvgPicture iconGet(String name){
     return SvgPicture.asset(
       'assets/Icons/$name.svg'
     );
+  }
+
+  @override
+  void initState() {
+    getTeamMembers(widget.event.events_id).then((members) {
+      members.add(" ${supabase.auth.currentUser!.email!} (You)");
+      setState(() {
+        teamEmails = members;
+      });
+    });
+    super.initState();
   }
 
   List<bool> highlight = [false,true,false];
@@ -101,7 +114,10 @@ class _QRPageState extends State<QRPage> {
                       Text(widget.event.location,style: subStyle,),
                       Text(widget.event.start_date,style: subStyle,),
                       GradLine(),
-                      Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182)))
+                      Text(widget.event.description,style:bodyStyle.copyWith(color: Color(0xff808182))),
+                      if (widget.event.team_size>1) GradLine(),
+                      if (widget.event.team_size>1) Text("Team Members: \n${teamEmails.join(", ")}",style: bodyStyle,),
+                      
                     ]
                   )
                   )

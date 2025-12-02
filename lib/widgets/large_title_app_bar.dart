@@ -21,8 +21,8 @@ class LargeAppBar extends StatelessWidget implements PreferredSizeWidget{
       ),
       automaticallyImplyLeading: true,
       toolbarHeight: screenHeight*0.2,
-      centerTitle: false,
-      backgroundColor: Colors.black.withAlpha(80),
+      centerTitle: true,
+      backgroundColor: Colors.black.withAlpha(150),
       title: 
       Padding(
         padding: const EdgeInsets.all(35),

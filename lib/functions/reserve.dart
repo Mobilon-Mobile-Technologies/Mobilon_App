@@ -18,6 +18,18 @@ void reserveEvent(String eventId) async {
       .insert({'event_id': eventId, 'user_id': userId});
 }
 
+Future<void> reserveEventWithTeam(String eventId, List<String> teamEmails) async {
+  final userId = getCurrentUserId();
+  if (userId == null) throw Exception('User not logged in');
+  
+  // Insert main reservation with team emails
+  await supabase.from('reservations').insert({
+    'event_id': eventId,
+    'user_id': userId,
+    'team_emails': teamEmails, // Store as JSON array
+  });
+}
+
 Future<bool> checkIfReserved(String eventId) async {
   try {
     final user_id = getCurrentUserId();

@@ -4,7 +4,7 @@ import 'package:eventa/widgets/admin/admindashcard.dart';
 import 'package:eventa/widgets/large_title_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:eventa/functions/reserve.dart';
-
+import '../team_registeration.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AdminDash extends StatefulWidget {
@@ -181,9 +181,26 @@ class _AdminDashState extends State<AdminDash> {
                           );
                         },
                         reserve: () async {
-                          reserveEvent(event.events_id);
-                          await getReservedEvents();
-                          setState(() => _loadEvents());
+                          // Check if team event
+                          if (event.team_size > 1) {
+                            // Navigate to team registration screen
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TeamRegistrationScreen(event: event),
+                              ),
+                            );
+                            
+                            // Refresh if registration was successful
+                            if (result == true) {
+                              setState(() => _loadEvents());
+                            }
+                          } else {
+                            // Single reservation
+                            reserveEvent(event.events_id);
+                            await getReservedEvents();
+                            setState(() => _loadEvents());
+                          }
                         },
                         showQr: () => Navigator.pushNamed(
                           context, '/event_details', arguments: event

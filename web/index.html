@@ -18,19 +18,34 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Event management and reservation app">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="eventa">
+  <meta name="apple-mobile-web-app-title" content="Eventa">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <meta name="permissions" content="camera">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>eventa</title>
+  <title>Eventa</title>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    // Handle OAuth callback on web
+    window.addEventListener('load', function() {
+      // Check if this is an OAuth callback
+      if (window.location.hash.includes('access_token') || 
+          window.location.search.includes('code=')) {
+        console.log('OAuth callback detected on web');
+        // The Supabase client will automatically handle the callback
+      }
+    });
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

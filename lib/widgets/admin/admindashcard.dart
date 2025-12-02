@@ -27,12 +27,21 @@ class Admindashcard extends StatelessWidget {
       child: GradientBox(
         child: Column(
           children: [
+            if (event.team_size>1) Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text("Requires team of ${event.team_size} to enter!",style: bodyStyle.copyWith(color: Colors.white),),
+                  GradLine()
+                ],
+              ),
+            ),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
-                "assets/FlutterImg.png",
+                "assets/crowd_img_1.jpg",
                 fit: BoxFit.cover,
-                height: 144, // ✅ Fixed height
+                height: 160, // ✅ Fixed height
               ),
             ),
             GradLine(),
@@ -47,8 +56,8 @@ class Admindashcard extends StatelessWidget {
                       Text(event.name, style: bodyStyle),
                       Text(
                         event.start_date == event.end_date
-                            ? "${event.start_time.substring(0,5)} - ${event.end_time.substring(0,5)}"
-                            : "${event.start_date} - ${event.end_date}",
+                            ? "On ${event.start_date} \n${event.start_time.substring(0,5)} to ${event.end_time.substring(0,5)}"
+                            : "${event.start_date} \nto ${event.end_date}",
                         style: subStyle,
                         textAlign: TextAlign.left,
                       ),

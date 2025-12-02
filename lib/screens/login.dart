@@ -64,7 +64,7 @@
 //           children: [
 //             Padding(
 //               padding: const EdgeInsets.all(9.0),
-//               child: Image.asset("assets/FlutterImg.png"),
+//               child: Image.asset("assets/crowd_img_1.jpg"),
 //             ),
 //             SizedBox(
 //               height: 20,
